@@ -134,13 +134,13 @@ export default function SocialFan() {
           </TextReveal>
         </div>
 
-        {/* Fan of cards */}
-        <div className="relative flex h-[500px] items-center justify-center md:h-[650px] lg:h-[700px]">
+        {/* Fan of cards - responsive to mobile */}
+        <div className="relative flex h-auto flex-col items-center gap-6 md:h-[650px] lg:h-[700px] lg:flex-row lg:justify-center">
           {socials.map((social, index) => (
             <motion.div
               key={social.platform}
               data-card
-              className="absolute cursor-pointer"
+              className="w-full cursor-pointer md:absolute md:w-auto"
               initial={{
                 opacity: 0,
                 y: 150,
@@ -151,12 +151,12 @@ export default function SocialFan() {
               animate={
                 isInView
                   ? {
-                      opacity: 1,
-                      y: 0,
-                      x: getXOffset(index),
-                      rotate: getRotation(index),
-                      scale: getScale(index),
-                    }
+                    opacity: 1,
+                    y: 0,
+                    x: window.innerWidth < 768 ? 0 : getXOffset(index),
+                    rotate: window.innerWidth < 768 ? (index % 2 === 0 ? -3 : 3) : getRotation(index),
+                    scale: window.innerWidth < 768 ? 1 : getScale(index),
+                  }
                   : {}
               }
               transition={{
@@ -168,18 +168,18 @@ export default function SocialFan() {
               }}
               style={{
                 transformOrigin: "bottom center",
-                zIndex: getZIndex(index),
+                zIndex: window.innerWidth < 768 ? index : getZIndex(index),
               }}
               whileHover={{
-                scale: 1.25,
+                scale: 1.05,
                 rotate: 0,
                 zIndex: 50,
-                y: -40,
+                y: window.innerWidth < 768 ? 0 : -40,
                 boxShadow: "0 30px 60px rgba(0,0,0,0.3)",
                 transition: { duration: 0.3, type: "spring", stiffness: 200 },
               }}
             >
-              <div className="relative h-[320px] w-[200px] overflow-hidden rounded-3xl shadow-2xl md:h-[450px] md:w-[280px] lg:h-[520px] lg:w-[320px]">
+              <div className="relative mx-auto h-[320px] w-[280px] overflow-hidden rounded-3xl shadow-2xl md:h-[450px] md:w-[280px] lg:h-[520px] lg:w-[320px]">
                 <Image
                   src={social.image || "/placeholder.svg"}
                   alt={`${social.platform} - ${social.handle}`}

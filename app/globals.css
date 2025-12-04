@@ -210,3 +210,78 @@ section {
     transform: none !important;
   }
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Optimize shadows for performance */
+  .shadow-ambient {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Touch-optimized interactions */
+  button,
+  a[role="button"],
+  [data-button] {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Reduce motion on mobile */
+  * {
+    animation-duration: calc(var(--duration, 1s) * 0.5) !important;
+  }
+}
+
+/* Universal Microinteractions */
+.neon-underline {
+  position: relative;
+}
+
+.neon-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.neon-underline:hover::after {
+  width: 100%;
+}
+
+/* Hover glow */
+.hover-glow {
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.hover-glow:hover {
+  filter: drop-shadow(0 0 20px rgba(206, 255, 43, 0.4));
+}
+
+/* Magnetic pull (applied via JS) */
+.magnetic {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Micro bounce on click */
+@keyframes micro-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+}
+
+.click-bounce:active {
+  animation: micro-bounce 0.2s;
+}

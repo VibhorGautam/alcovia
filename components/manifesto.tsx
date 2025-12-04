@@ -168,7 +168,7 @@ export default function Manifesto() {
 
             {/* Text content */}
             <div
-              className="reveal-text flex flex-wrap text-3xl font-bold italic leading-[0.95] tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"
+              className="reveal-text flex flex-wrap text-2xl font-bold italic leading-[0.95] tracking-tight sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl"
               style={{ opacity: 0, transform: "translateY(20px)" }}
             >
               {line.words.map((word, wordIndex) => (
