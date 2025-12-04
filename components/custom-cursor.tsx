@@ -2,29 +2,65 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import gsap from "gsap"
+import { checkReducedMotion, isMobile, COLORS } from "@/lib/hero-animations"
 
-type CursorState = "default" | "hover-link" | "hover-button" | "drag"
+type CursorState = "default" | "hover-link" | "hover-button" | "drag" | "hover-hero"
 
 export default function CustomCursor() {
   const [cursorState, setCursorState] = useState<CursorState>("default")
   const [isVisible, setIsVisible] = useState(false)
   const [isHoveringNeon, setIsHoveringNeon] = useState(false)
+  const [isOverHero, setIsOverHero] = useState(false)
 
   const innerRef = useRef<HTMLDivElement>(null)
   const outerRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
+  const planeRef = useRef<SVGSVGElement>(null)
+  const sparkContainerRef = useRef<HTMLDivElement>(null)
 
   const positionRef = useRef({ x: 0, y: 0 })
   const velocityRef = useRef({ x: 0, y: 0 })
   const lastPosRef = useRef({ x: 0, y: 0, t: Date.now() })
 
-  // Check for reduced motion and touch devices
   const [shouldRender, setShouldRender] = useState(true)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
+    const prefersReducedMotion = checkReducedMotion()
+    const isTouchDevice = isMobile() || window.matchMedia("(pointer: coarse)").matches
     setShouldRender(!prefersReducedMotion && !isTouchDevice)
+  }, [])
+
+  // Spawn spark on fast movement
+  const spawnSpark = useCallback((x: number, y: number) => {
+    if (!sparkContainerRef.current || checkReducedMotion()) return
+
+    const spark = document.createElement("div")
+    spark.className = "pointer-events-none fixed rounded-full"
+    spark.style.cssText = `
+      left: ${x}px;
+      top: ${y}px;
+      width: 4px;
+      height: 4px;
+      background: ${COLORS.accent};
+      transform: translate(-50%, -50%);
+      z-index: 9995;
+    `
+
+    sparkContainerRef.current.appendChild(spark)
+
+    // Random direction
+    const angle = Math.random() * Math.PI * 2
+    const distance = 15 + Math.random() * 20
+
+    gsap.to(spark, {
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance,
+      opacity: 0,
+      scale: 0,
+      duration: 0.3 + Math.random() * 0.2,
+      ease: "power2.out",
+      onComplete: () => spark.remove(),
+    })
   }, [])
 
   const handleMouseMove = useCallback(
@@ -34,32 +70,50 @@ export default function CustomCursor() {
       const dt = Math.max(1, now - lastPosRef.current.t)
 
       // Calculate velocity
-      velocityRef.current = {
-        x: (clientX - lastPosRef.current.x) / dt,
-        y: (clientY - lastPosRef.current.y) / dt,
-      }
+      const vx = (clientX - lastPosRef.current.x) / dt
+      const vy = (clientY - lastPosRef.current.y) / dt
+      const speed = Math.sqrt(vx * vx + vy * vy)
 
+      velocityRef.current = { x: vx, y: vy }
       lastPosRef.current = { x: clientX, y: clientY, t: now }
       positionRef.current = { x: clientX, y: clientY }
+
+      // Spawn sparks on fast movement (when in hero mode)
+      if (speed > 0.8 && isOverHero && Math.random() > 0.7) {
+        spawnSpark(clientX, clientY)
+      }
 
       // Inner cursor - immediate follow
       if (innerRef.current) {
         gsap.to(innerRef.current, {
           x: clientX,
           y: clientY,
-          duration: 0.1,
+          duration: isOverHero ? 0.08 : 0.1,
           ease: "power3.out",
           overwrite: true,
         })
       }
 
-      // Outer cursor - trailing with 120-160ms delay
+      // Outer cursor - trailing with delay
       if (outerRef.current) {
         gsap.to(outerRef.current, {
           x: clientX,
           y: clientY,
-          duration: 0.15,
+          duration: isOverHero ? 0.12 : 0.15,
           ease: "power3.out",
+          overwrite: true,
+        })
+      }
+
+      // Paper plane - follows with slight rotation based on velocity
+      if (planeRef.current && isOverHero) {
+        const rotation = Math.atan2(vy, vx) * (180 / Math.PI) + 30
+        gsap.to(planeRef.current, {
+          x: clientX + 15,
+          y: clientY - 15,
+          rotation: speed > 0.3 ? rotation : -30,
+          duration: 0.15,
+          ease: "power2.out",
           overwrite: true,
         })
       }
@@ -77,7 +131,7 @@ export default function CustomCursor() {
 
       setIsVisible(true)
     },
-    [isHoveringNeon],
+    [isHoveringNeon, isOverHero, spawnSpark]
   )
 
   const handleElementHover = useCallback((e: MouseEvent) => {
@@ -91,6 +145,13 @@ export default function CustomCursor() {
 
     setIsHoveringNeon(isNeon)
 
+    // Check if over hero portrait area
+    const isHeroPortrait =
+      target.closest(".hero-center") !== null ||
+      target.closest('[id="hero"]')?.contains(target.closest(".hero-center") || null)
+
+    setIsOverHero(isHeroPortrait)
+
     // Determine cursor state
     const cursorAttr = target.getAttribute("data-cursor")
     if (cursorAttr) {
@@ -98,7 +159,9 @@ export default function CustomCursor() {
       return
     }
 
-    if (target.tagName === "A" || target.closest("a")) {
+    if (isHeroPortrait) {
+      setCursorState("hover-hero")
+    } else if (target.tagName === "A" || target.closest("a")) {
       setCursorState("hover-link")
     } else if (target.tagName === "BUTTON" || target.closest("button")) {
       setCursorState("hover-button")
@@ -133,6 +196,8 @@ export default function CustomCursor() {
   // Cursor sizes and styles based on state
   const getOuterSize = () => {
     switch (cursorState) {
+      case "hover-hero":
+        return 56
       case "hover-link":
         return 48
       case "hover-button":
@@ -146,10 +211,16 @@ export default function CustomCursor() {
 
   const getOuterStyle = () => {
     switch (cursorState) {
+      case "hover-hero":
+        return {
+          borderWidth: 2,
+          borderColor: COLORS.accent,
+          backgroundColor: "rgba(206,255,43,0.05)",
+        }
       case "hover-link":
         return {
           borderWidth: 2,
-          borderColor: "#CEFF2B",
+          borderColor: COLORS.accent,
           backgroundColor: "transparent",
         }
       case "hover-button":
@@ -177,6 +248,9 @@ export default function CustomCursor() {
 
   return (
     <>
+      {/* Spark container */}
+      <div ref={sparkContainerRef} className="pointer-events-none fixed inset-0 z-[9995]" />
+
       {/* Glow trail for neon elements */}
       <div
         ref={glowRef}
@@ -190,16 +264,34 @@ export default function CustomCursor() {
         }}
       />
 
+      {/* Paper plane cursor (visible in hero mode) */}
+      <svg
+        ref={planeRef}
+        className="pointer-events-none fixed left-0 top-0 z-[10000]"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill={COLORS.accent}
+        style={{
+          transform: "translate(-50%, -50%) rotate(-30deg)",
+          opacity: isVisible && isOverHero ? 1 : 0,
+          transition: "opacity 200ms",
+          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
+        }}
+      >
+        <path d="M3 3l18 9-18 9 3-9-3-9z" />
+      </svg>
+
       {/* Inner dot - 8-14px based on state */}
       <div
         ref={innerRef}
         className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full mix-blend-difference"
         style={{
           transform: "translate(-50%, -50%)",
-          width: cursorState === "hover-button" ? 10 : 8,
-          height: cursorState === "hover-button" ? 10 : 8,
+          width: cursorState === "hover-button" ? 10 : cursorState === "hover-hero" ? 6 : 8,
+          height: cursorState === "hover-button" ? 10 : cursorState === "hover-hero" ? 6 : 8,
           backgroundColor: cursorState === "hover-button" ? "#0B0B0B" : "#fff",
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible && !isOverHero ? 1 : 0,
           transition: "width 200ms, height 200ms, background-color 200ms, opacity 200ms",
         }}
       />
@@ -218,7 +310,12 @@ export default function CustomCursor() {
           backgroundColor: outerStyle.backgroundColor,
           opacity: isVisible ? 1 : 0,
           transition: "width 200ms, height 200ms, border-color 200ms, background-color 200ms, opacity 200ms",
-          boxShadow: cursorState === "hover-button" ? "0 6px 20px rgba(206,255,43,0.3)" : "none",
+          boxShadow:
+            cursorState === "hover-button"
+              ? "0 6px 20px rgba(206,255,43,0.3)"
+              : cursorState === "hover-hero"
+                ? "0 0 20px rgba(206,255,43,0.2)"
+                : "none",
         }}
       >
         {/* Cursor content based on state */}

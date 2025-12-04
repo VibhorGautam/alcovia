@@ -2,24 +2,61 @@
 
 import type React from "react"
 import { useRef, useEffect, useState, useCallback } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import gsap from "gsap"
+
+import {
+  checkReducedMotion,
+  isMobile,
+  initPageLoadTimeline,
+  initSpotlightBreathing,
+  createWingRevealTimeline,
+  createWingHoverAnimation,
+  createWingFoldAnimation,
+  createCTAMagneticPull,
+  createCTANeonSweep,
+  createCTAClickRipple,
+  createPaperPlaneTrail,
+  createAmbientParticles,
+  createSparkBurst,
+  createPlaneTakeoff,
+  createFloatingDoodles,
+  COLORS,
+} from "@/lib/hero-animations"
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const portraitRef = useRef<HTMLDivElement>(null)
   const leftWingRef = useRef<HTMLDivElement>(null)
   const rightWingRef = useRef<HTMLDivElement>(null)
-  const emblemRef = useRef<HTMLDivElement>(null)
+  const wingsContainerRef = useRef<HTMLDivElement>(null)
+  const spotlightRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLButtonElement>(null)
+  const headlineRef = useRef<HTMLHeadingElement>(null)
+  const taglineRef = useRef<HTMLParagraphElement>(null)
+  const parallaxLayer1Ref = useRef<HTMLDivElement>(null)
+  const parallaxLayer2Ref = useRef<HTMLDivElement>(null)
+  const parallaxLayer3Ref = useRef<HTMLDivElement>(null)
+  const doodlesContainerRef = useRef<HTMLDivElement>(null)
 
   const [isRevealed, setIsRevealed] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [showTooltip, setShowTooltip] = useState(false)
 
-  const portraitCenterRef = useRef({ x: 0, y: 0 })
+  // Animation refs
+  const wingRevealTlRef = useRef<gsap.core.Timeline | null>(null)
+  const wingFoldTlRef = useRef<gsap.core.Tween | null>(null)
+  const leftWingAnimRef = useRef<ReturnType<typeof createWingHoverAnimation> | null>(null)
+  const rightWingAnimRef = useRef<ReturnType<typeof createWingHoverAnimation> | null>(null)
+  const paperPlaneTrailRef = useRef<ReturnType<typeof createPaperPlaneTrail> | null>(null)
+  const particlesRef = useRef<ReturnType<typeof createAmbientParticles> | null>(null)
+  const doodlesRef = useRef<ReturnType<typeof createFloatingDoodles> | null>(null)
+  const ctaSweepRef = useRef<ReturnType<typeof createCTANeonSweep> | null>(null)
+  const ctaMagneticCleanupRef = useRef<(() => void) | null>(null)
 
-  // Scroll-based shrink effect
+  // Scroll-based effects
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -28,58 +65,136 @@ export default function Hero() {
   const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.78])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const y = useTransform(scrollYProgress, [0, 0.6], [0, -120])
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 60])
 
-  useEffect(() => {
-    setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-    const timer = setTimeout(() => setIsRevealed(true), 100)
-    return () => clearTimeout(timer)
-  }, [])
+  // Parallax layer speeds
+  const parallax1Y = useTransform(scrollYProgress, [0, 1], [0, 30])
+  const parallax2Y = useTransform(scrollYProgress, [0, 1], [0, 60])
+  const parallax3Y = useTransform(scrollYProgress, [0, 1], [0, 90])
 
+  // Initialize animations on mount
   useEffect(() => {
-    const updateCenter = () => {
-      if (portraitRef.current) {
-        const rect = portraitRef.current.getBoundingClientRect()
-        portraitCenterRef.current = {
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
-        }
+    const reducedMotion = checkReducedMotion()
+    setPrefersReducedMotion(reducedMotion)
+
+    // Delay reveal to allow DOM to settle
+    const timer = setTimeout(() => {
+      setIsRevealed(true)
+
+      // Initialize page load timeline
+      const parallaxLayers = [
+        parallaxLayer1Ref.current,
+        parallaxLayer2Ref.current,
+        parallaxLayer3Ref.current,
+      ].filter(Boolean) as HTMLElement[]
+
+      initPageLoadTimeline({
+        parallaxLayers,
+        spotlight: spotlightRef.current || undefined,
+        student: portraitRef.current || undefined,
+        cta: ctaRef.current || undefined,
+        headline: headlineRef.current || undefined,
+        tagline: taglineRef.current || undefined,
+      })
+
+      // Initialize spotlight breathing
+      if (spotlightRef.current) {
+        initSpotlightBreathing(spotlightRef.current)
       }
-    }
 
-    updateCenter()
-    window.addEventListener("resize", updateCenter)
-    return () => window.removeEventListener("resize", updateCenter)
+      // Initialize wing animations
+      if (leftWingRef.current && rightWingRef.current) {
+        wingRevealTlRef.current = createWingRevealTimeline({
+          leftWing: leftWingRef.current,
+          rightWing: rightWingRef.current,
+          wingsContainer: wingsContainerRef.current || undefined,
+        })
+
+        leftWingAnimRef.current = createWingHoverAnimation(leftWingRef.current, true)
+        rightWingAnimRef.current = createWingHoverAnimation(rightWingRef.current, false)
+
+        wingFoldTlRef.current = createWingFoldAnimation(
+          leftWingRef.current,
+          rightWingRef.current
+        )
+      }
+
+      // Initialize CTA animations
+      if (ctaRef.current) {
+        ctaSweepRef.current = createCTANeonSweep(ctaRef.current)
+        ctaMagneticCleanupRef.current = createCTAMagneticPull({
+          button: ctaRef.current,
+          magnetRadius: 80,
+        })
+      }
+
+      // Initialize paper plane trail
+      if (containerRef.current && !reducedMotion && !isMobile()) {
+        paperPlaneTrailRef.current = createPaperPlaneTrail({
+          container: containerRef.current,
+          fadeDelay: 700,
+        })
+      }
+
+      // Initialize ambient particles
+      if (containerRef.current) {
+        particlesRef.current = createAmbientParticles({
+          container: containerRef.current,
+          maxParticles: isMobile() ? 12 : 25,
+        })
+      }
+
+      // Initialize floating doodles and quotes
+      if (doodlesContainerRef.current) {
+        doodlesRef.current = createFloatingDoodles({
+          container: doodlesContainerRef.current,
+          quotes: ["Dream big ✨", "Take flight 🚀", "Believe in yourself 💫", "Future leader 🌟"],
+        })
+      }
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      particlesRef.current?.destroy()
+      doodlesRef.current?.destroy()
+      paperPlaneTrailRef.current?.destroy()
+      if (ctaMagneticCleanupRef.current) ctaMagneticCleanupRef.current()
+    }
   }, [])
 
-  // Wing animation on hover
+  // Handle wing fold on scroll
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (value) => {
+      if (value > 0.3 && wingFoldTlRef.current && !isHovering) {
+        wingFoldTlRef.current.play()
+      } else if (value <= 0.3 && wingFoldTlRef.current) {
+        wingFoldTlRef.current.reverse()
+      }
+    })
+
+    return () => unsubscribe()
+  }, [scrollYProgress, isHovering])
+
+  // Wing reveal on hover
   const handlePortraitMouseEnter = useCallback(() => {
     setIsHovering(true)
     if (prefersReducedMotion) return
 
-    // Wings emerge from behind
-    if (leftWingRef.current) {
-      gsap.to(leftWingRef.current, {
-        x: -80,
-        y: -20,
-        rotation: -15,
-        scale: 1,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power3.out",
-      })
-    }
+    // Play wing reveal
+    wingRevealTlRef.current?.play()
 
-    if (rightWingRef.current) {
-      gsap.to(rightWingRef.current, {
-        x: 80,
-        y: -20,
-        rotation: 15,
-        scale: 1,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power3.out",
-      })
+    // Start paper plane trail
+    paperPlaneTrailRef.current?.start()
+
+    // Spark burst at portrait center
+    if (portraitRef.current && containerRef.current) {
+      const rect = portraitRef.current.getBoundingClientRect()
+      const containerRect = containerRef.current.getBoundingClientRect()
+      createSparkBurst(
+        rect.left + rect.width / 2 - containerRect.left,
+        rect.top + rect.height / 2 - containerRect.top,
+        containerRef.current,
+        4
+      )
     }
   }, [prefersReducedMotion])
 
@@ -87,71 +202,40 @@ export default function Hero() {
     setIsHovering(false)
     if (prefersReducedMotion) return
 
-    // Wings retract behind
-    if (leftWingRef.current) {
-      gsap.to(leftWingRef.current, {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.in",
-      })
-    }
+    // Reverse wing reveal
+    wingRevealTlRef.current?.reverse()
 
-    if (rightWingRef.current) {
-      gsap.to(rightWingRef.current, {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.in",
-      })
-    }
+    // Stop paper plane trail
+    paperPlaneTrailRef.current?.stop()
   }, [prefersReducedMotion])
 
-  // Cursor-following wing movement when hovering
+  // Cursor-following wing movement + trail
   const handlePortraitMouseMove = useCallback(
     (e: React.MouseEvent) => {
       if (prefersReducedMotion || !portraitRef.current) return
 
       const rect = portraitRef.current.getBoundingClientRect()
-      const x = (e.clientX - rect.left) / rect.width - 0.5
-      const y = (e.clientY - rect.top) / rect.height - 0.5
+      const normalizedX = (e.clientX - rect.left) / rect.width - 0.5
+      const normalizedY = (e.clientY - rect.top) / rect.height - 0.5
 
       // Portrait 3D tilt
       gsap.to(portraitRef.current, {
-        rotateY: x * 6,
-        rotateX: -y * 6,
+        rotateY: normalizedX * 8,
+        rotateX: -normalizedY * 8,
         ease: "power2.out",
         duration: 0.3,
       })
 
-      // Wings follow cursor subtly
-      if (leftWingRef.current && isHovering) {
-        gsap.to(leftWingRef.current, {
-          x: -80 + x * 15,
-          y: -20 + y * 10,
-          rotation: -15 + x * 5,
-          duration: 0.4,
-          ease: "power2.out",
-        })
+      // Wings follow cursor
+      if (isHovering) {
+        leftWingAnimRef.current?.follow(normalizedX, normalizedY)
+        rightWingAnimRef.current?.follow(normalizedX, normalizedY)
       }
 
-      if (rightWingRef.current && isHovering) {
-        gsap.to(rightWingRef.current, {
-          x: 80 + x * 15,
-          y: -20 + y * 10,
-          rotation: 15 + x * 5,
-          duration: 0.4,
-          ease: "power2.out",
-        })
-      }
+      // Add point to paper plane trail
+      paperPlaneTrailRef.current?.addPoint(e.clientX, e.clientY)
     },
-    [prefersReducedMotion, isHovering],
+    [prefersReducedMotion, isHovering]
   )
 
   const handlePortraitMouseLeaveReset = useCallback(() => {
@@ -165,30 +249,123 @@ export default function Hero() {
     handlePortraitMouseLeave()
   }, [handlePortraitMouseLeave])
 
+  // CTA click handler
+  const handleCTAClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!ctaRef.current || !containerRef.current) return
+
+      // Ripple effect
+      createCTAClickRipple(ctaRef.current, e.nativeEvent)
+
+      // Plane takeoff flourish
+      const rect = ctaRef.current.getBoundingClientRect()
+      createPlaneTakeoff(
+        containerRef.current,
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2
+      )
+    },
+    []
+  )
+
+  // CTA hover handlers
+  const handleCTAMouseEnter = useCallback(() => {
+    ctaSweepRef.current?.play()
+  }, [])
+
+  // Mobile tap handler
+  const handleMobileTap = useCallback(() => {
+    if (!isMobile()) return
+    setIsHovering((prev) => !prev)
+
+    if (!isHovering) {
+      wingRevealTlRef.current?.play()
+    } else {
+      wingRevealTlRef.current?.reverse()
+    }
+  }, [isHovering])
+
   return (
     <motion.section
       id="hero"
       ref={containerRef}
       className="hero-viewport relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F7F7F3]"
       style={{ scale, opacity, y }}
+      role="region"
+      aria-label="Hero section - Take flight with Alcovia"
     >
-      {/* Background topo/flow lines */}
-      <motion.div className="absolute inset-0 opacity-[0.03]" style={{ y: bgY }}>
-        <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          {[...Array(25)].map((_, i) => (
-            <motion.path
-              key={i}
-              d={`M0,${20 + i * 2.5} Q25,${15 + i * 2.5 + Math.sin(i * 0.5) * 3} 50,${20 + i * 2.5} T100,${20 + i * 2.5}`}
+      {/* Parallax Layer 1 - Farthest, slowest */}
+      <motion.div
+        ref={parallaxLayer1Ref}
+        className="pointer-events-none absolute inset-0 opacity-0"
+        style={{ y: parallax1Y }}
+      >
+        <svg className="h-full w-full opacity-[0.02]" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {[...Array(20)].map((_, i) => (
+            <path
+              key={`l1-${i}`}
+              d={`M0,${15 + i * 4} Q25,${10 + i * 4 + Math.sin(i * 0.3) * 5} 50,${15 + i * 4} T100,${15 + i * 4}`}
               fill="none"
               stroke="#121212"
-              strokeWidth="0.08"
-              initial={{ pathLength: 0 }}
-              animate={isRevealed ? { pathLength: 1 } : {}}
-              transition={{ delay: i * 0.03, duration: 1.5 }}
+              strokeWidth="0.06"
             />
           ))}
         </svg>
       </motion.div>
+
+      {/* Parallax Layer 2 - Middle */}
+      <motion.div
+        ref={parallaxLayer2Ref}
+        className="pointer-events-none absolute inset-0 opacity-0"
+        style={{ y: parallax2Y, filter: "blur(0.5px)" }}
+      >
+        <svg className="h-full w-full opacity-[0.03]" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {[...Array(15)].map((_, i) => (
+            <path
+              key={`l2-${i}`}
+              d={`M0,${25 + i * 5} Q30,${20 + i * 5 + Math.cos(i * 0.4) * 4} 60,${25 + i * 5} T100,${25 + i * 5}`}
+              fill="none"
+              stroke="#121212"
+              strokeWidth="0.08"
+            />
+          ))}
+        </svg>
+      </motion.div>
+
+      {/* Parallax Layer 3 - Nearest, fastest */}
+      <motion.div
+        ref={parallaxLayer3Ref}
+        className="pointer-events-none absolute inset-0 opacity-0"
+        style={{ y: parallax3Y, filter: "blur(1px)" }}
+      >
+        <svg className="h-full w-full opacity-[0.04]" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {[...Array(10)].map((_, i) => (
+            <path
+              key={`l3-${i}`}
+              d={`M0,${35 + i * 6} Q40,${30 + i * 6 + Math.sin(i * 0.5) * 6} 70,${35 + i * 6} T100,${35 + i * 6}`}
+              fill="none"
+              stroke="#121212"
+              strokeWidth="0.1"
+            />
+          ))}
+        </svg>
+      </motion.div>
+
+      {/* Radial Spotlight */}
+      <div
+        ref={spotlightRef}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 opacity-0"
+        style={{
+          background: "radial-gradient(circle, rgba(206,255,43,0.08) 0%, transparent 60%)",
+          willChange: "transform, opacity",
+        }}
+      />
+
+      {/* Floating Doodles & Micro-quotes Container */}
+      <div
+        ref={doodlesContainerRef}
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      />
 
       {/* Hero grid layout */}
       <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-1">
@@ -199,12 +376,21 @@ export default function Hero() {
           animate={isRevealed ? { opacity: 1, x: 0, rotate: 0 } : {}}
           transition={{ delay: 1.4, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <svg
+          <motion.svg
             width="48"
             height="48"
             viewBox="0 0 24 24"
             fill="none"
             className="text-[#CEFF2B] drop-shadow-lg"
+            animate={{
+              y: [0, -8, 0],
+              rotate: [0, 5, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           >
             <path
               d="M3 3l18 9-18 9 3-9-3-9z"
@@ -230,67 +416,79 @@ export default function Hero() {
               animate={{ pathLength: 1 }}
               transition={{ delay: 1.6, duration: 0.6 }}
             />
-          </svg>
+          </motion.svg>
         </motion.div>
 
         {/* Hero center - portrait with wings */}
-        <div className="hero-center relative flex items-center justify-center pt-8">
-
-          {/* Left Wing - Angel wing image */}
+        <div
+          className="hero-center relative flex items-center justify-center pt-8"
+          onClick={handleMobileTap}
+        >
+          {/* Wings Container with ARIA */}
           <div
-            ref={leftWingRef}
-            className="pointer-events-none absolute z-10"
-            style={{
-              opacity: 0,
-              transform: "scale(0.8)",
-              left: "50%",
-              top: "50%",
-              marginLeft: "-280px",
-              marginTop: "-200px",
-            }}
+            ref={wingsContainerRef}
+            className="pointer-events-none absolute inset-0 z-10"
+            role="img"
+            aria-label="Wings symbolising growth and potential"
           >
-            <Image
-              src="/images/element-download-1764790639.png"
-              alt="Angel wing left"
-              width={350}
-              height={350}
-              className="object-contain drop-shadow-2xl"
+            {/* Left Wing */}
+            <div
+              ref={leftWingRef}
+              className="absolute"
               style={{
-                filter: "drop-shadow(0 10px 40px rgba(206,255,43,0.3))",
-                transform: "scaleX(-1)", // Flip for left wing
+                opacity: 0,
+                transform: "scale(0.8)",
+                left: "50%",
+                top: "50%",
+                marginLeft: "-280px",
+                marginTop: "-200px",
+                willChange: "transform, opacity",
               }}
-            />
-          </div>
+            >
+              <Image
+                src="/images/element-download-1764790639.png"
+                alt=""
+                width={350}
+                height={350}
+                className="object-contain"
+                style={{
+                  filter: "drop-shadow(0 10px 40px rgba(206,255,43,0.3))",
+                  transform: "scaleX(-1)",
+                }}
+              />
+            </div>
 
-          {/* Right Wing - Angel wing image */}
-          <div
-            ref={rightWingRef}
-            className="pointer-events-none absolute z-10"
-            style={{
-              opacity: 0,
-              transform: "scale(0.8)",
-              right: "50%",
-              top: "50%",
-              marginRight: "-280px",
-              marginTop: "-200px",
-            }}
-          >
-            <Image
-              src="/images/element-download-1764790639.png"
-              alt="Angel wing right"
-              width={350}
-              height={350}
-              className="object-contain drop-shadow-2xl"
+            {/* Right Wing */}
+            <div
+              ref={rightWingRef}
+              className="absolute"
               style={{
-                filter: "drop-shadow(0 10px 40px rgba(206,255,43,0.3))",
+                opacity: 0,
+                transform: "scale(0.8)",
+                right: "50%",
+                top: "50%",
+                marginRight: "-280px",
+                marginTop: "-200px",
+                willChange: "transform, opacity",
               }}
-            />
+            >
+              <Image
+                src="/images/element-download-1764790639.png"
+                alt=""
+                width={350}
+                height={350}
+                className="object-contain"
+                style={{
+                  filter: "drop-shadow(0 10px 40px rgba(206,255,43,0.3))",
+                }}
+              />
+            </div>
           </div>
 
           {/* Portrait card */}
           <motion.div
             ref={portraitRef}
-            className="relative z-20 h-[420px] w-[300px] overflow-hidden rounded-3xl bg-transparent md:h-[550px] md:w-[380px] lg:h-[620px] lg:w-[440px]"
+            className="relative z-20 h-[420px] w-[300px] cursor-pointer overflow-hidden rounded-3xl bg-transparent md:h-[550px] md:w-[380px] lg:h-[620px] lg:w-[440px]"
             style={{
               perspective: 1000,
               transformStyle: "preserve-3d",
@@ -303,10 +501,10 @@ export default function Hero() {
             onMouseMove={handlePortraitMouseMove}
             onMouseLeave={handlePortraitMouseLeaveReset}
           >
-            {/* New student image */}
+            {/* Student image */}
             <Image
               src="/images/hero-girl.png"
-              alt="Young Indian student ready to take flight with Alcovia"
+              alt="Young Indian student ready to take flight with Alcovia - representing ambition and growth"
               fill
               className="object-contain object-center"
               style={{ filter: "contrast(1.05) saturate(0.95) brightness(0.98)" }}
@@ -318,35 +516,75 @@ export default function Hero() {
               className="pointer-events-none absolute inset-0 rounded-3xl"
               animate={{
                 boxShadow: isHovering
-                  ? "0 0 60px 20px rgba(206,255,43,0.3), inset 0 0 40px rgba(206,255,43,0.1)"
+                  ? "0 0 80px 30px rgba(206,255,43,0.25), inset 0 0 60px rgba(206,255,43,0.08)"
                   : "0 0 0px 0px rgba(206,255,43,0)",
               }}
               transition={{ duration: 0.4 }}
             />
 
-            {/* Emblem overlay at bottom */}
+            {/* Neon outline bloom on hover */}
             <motion.div
-              ref={emblemRef}
+              className="pointer-events-none absolute inset-0 rounded-3xl border-2 border-transparent"
+              animate={{
+                borderColor: isHovering ? "rgba(206,255,43,0.15)" : "transparent",
+                boxShadow: isHovering
+                  ? "inset 0 0 20px rgba(206,255,43,0.1)"
+                  : "none",
+              }}
+              transition={{ duration: 0.3 }}
+            />
+
+            {/* Star badge with tooltip */}
+            <motion.div
               className="absolute bottom-4 left-1/2 -translate-x-1/2"
               animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#CEFF2B]/90 shadow-lg backdrop-blur-sm">
+              <div
+                className="relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#CEFF2B]/90 shadow-lg backdrop-blur-sm"
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
                 <svg className="h-6 w-6 text-[#0C0C0C]" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2L9 9H2l6 5-2.5 8L12 17l6.5 5L16 14l6-5h-7L12 2z" />
                 </svg>
+
+                {/* Tooltip */}
+                <AnimatePresence>
+                  {showTooltip && (
+                    <motion.div
+                      className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[#0B0B0B] px-3 py-1.5 text-xs text-white shadow-lg"
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                    >
+                      Future Leader Badge ⭐
+                      <div className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-[#0B0B0B]" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* "Hover to reveal wings" hint */}
+          {/* Hover hint - hidden on mobile */}
           <motion.p
-            className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs uppercase tracking-widest text-[#0C0C0C]/40"
+            className="absolute -bottom-8 left-1/2 hidden -translate-x-1/2 whitespace-nowrap text-xs uppercase tracking-widest text-[#0C0C0C]/40 md:block"
             initial={{ opacity: 0 }}
             animate={{ opacity: isHovering ? 0 : 1 }}
             transition={{ delay: 2, duration: 0.5 }}
           >
             Hover to reveal wings
+          </motion.p>
+
+          {/* Mobile tap hint */}
+          <motion.p
+            className="absolute -bottom-8 left-1/2 block -translate-x-1/2 whitespace-nowrap text-xs uppercase tracking-widest text-[#0C0C0C]/40 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovering ? 0 : 1 }}
+            transition={{ delay: 2, duration: 0.5 }}
+          >
+            Tap to reveal wings
           </motion.p>
         </div>
 
@@ -364,7 +602,10 @@ export default function Hero() {
               animate={isRevealed ? { x: "105%" } : {}}
               transition={{ delay: 1.3, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
             />
-            <h2 className="reveal-text text-5xl font-black uppercase tracking-tighter text-[#0C0C0C] md:text-6xl lg:text-7xl">
+            <h2
+              ref={headlineRef}
+              className="reveal-text text-5xl font-black uppercase tracking-tighter text-[#0C0C0C] md:text-6xl lg:text-7xl"
+            >
               ALCOVIA
             </h2>
           </div>
@@ -375,7 +616,10 @@ export default function Hero() {
               animate={isRevealed ? { x: "105%" } : {}}
               transition={{ delay: 1.45, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
             />
-            <p className="reveal-text max-w-sm text-sm text-[#0C0C0C]/70 md:text-base">
+            <p
+              ref={taglineRef}
+              className="reveal-text max-w-sm text-sm text-[#0C0C0C]/70 md:text-base"
+            >
               Empowering Indian teens to become tomorrow&apos;s leaders
             </p>
           </div>
@@ -384,20 +628,33 @@ export default function Hero() {
         {/* Hero bottom right - CTA button and scroll indicator */}
         <div className="absolute bottom-8 right-6 z-30 flex flex-col items-center gap-6 lg:bottom-12 lg:right-12 lg:items-end">
           <motion.button
-            className="group relative overflow-hidden rounded-full border-2 border-[#0C0C0C] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#CEFF2B]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isRevealed ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
+            ref={ctaRef}
+            className="group relative overflow-hidden rounded-full border-2 border-[#0C0C0C] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#CEFF2B] focus:outline-none focus:ring-2 focus:ring-[#CEFF2B] focus:ring-offset-2 md:px-8 md:py-4"
+            style={{ opacity: 0, willChange: "transform" }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onMouseEnter={handleCTAMouseEnter}
+            onClick={handleCTAClick}
+            aria-label="Start your journey at Alcovia"
           >
-            <span className="relative z-10 transition-colors group-hover:text-[#0C0C0C]">Start Your Journey</span>
+            <span className="relative z-10 transition-colors group-hover:text-[#0C0C0C]">
+              Start Your Journey
+            </span>
             <motion.div
               className="absolute inset-0 -z-0 bg-[#CEFF2B]"
               initial={{ x: "-100%" }}
               whileHover={{ x: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             />
+          </motion.button>
+
+          {/* Mobile CTA - full width sticky option */}
+          <motion.button
+            className="fixed bottom-0 left-0 right-0 z-50 hidden w-full bg-[#CEFF2B] py-4 text-center text-sm font-bold uppercase tracking-wider text-[#0C0C0C] shadow-lg"
+            style={{ display: "none" }} // Enable via CSS for mobile if needed
+            aria-label="Start your journey at Alcovia"
+          >
+            Start Your Journey
           </motion.button>
 
           {/* Scroll indicator */}
@@ -416,6 +673,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-    </motion.section >
+    </motion.section>
   )
 }
