@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import gsap from "gsap"
 
 type NavMode = "light" | "dark"
@@ -81,33 +82,43 @@ export default function PremiumNavbar() {
     <>
       <motion.nav
         ref={navRef}
-        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl" : "backdrop-blur-md"
+        className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${scrolled ? "backdrop-blur-2xl" : "backdrop-blur-xl"
           }`}
         style={{
           backgroundColor: scrolled
             ? navMode === "dark"
-              ? "rgba(247,247,243,0.8)"
-              : "rgba(11,11,11,0.8)"
+              ? "rgba(247,247,243,0.85)"
+              : "rgba(11,11,11,0.85)"
             : navMode === "dark"
-              ? "rgba(247,247,243,0.6)"
-              : "rgba(11,11,11,0.6)",
+              ? "rgba(247,247,243,0.7)"
+              : "rgba(11,11,11,0.7)",
+          borderBottomColor: navMode === "dark"
+            ? "rgba(11,11,11,0.1)"
+            : "rgba(247,247,243,0.1)",
         }}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:h-24 md:px-12">
-          {/* Logo - Left */}
-          <Link
-            href="/"
-            className={`text-2xl font-black uppercase tracking-wider transition-colors duration-300 md:text-3xl ${navMode === "dark" ? "text-[#0B0B0B]" : "text-[#F7F7F3]"
-              }`}
-            style={{ letterSpacing: "0.1em" }}
-          >
-            ALCOVIA
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          {/* Left - Logo */}
+          <Link href="/" className="z-10">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Image
+                src="/images/alcovia-logo.png"
+                alt="ALCOVIA"
+                width={300}
+                height={150}
+                className="h-auto w-[20px] md:w-[110px]"
+                priority
+              />
+            </motion.div>
           </Link>
 
-          {/* Center Navigation - Desktop Only */}
+          {/* Center - Nav Links (Desktop) */}
           <nav className="hidden items-center gap-8 lg:flex">
             {navLinks.map((link) => (
               <NavLink key={link.label} href={link.href} mode={navMode}>
@@ -120,8 +131,8 @@ export default function PremiumNavbar() {
           <div className="flex items-center gap-4">
             <motion.button
               className={`hidden rounded-full border-2 px-6 py-2.5 text-sm font-semibold uppercase tracking-wider transition-all duration-300 md:block ${navMode === "dark"
-                  ? "border-[#CEFF2B] bg-[#CEFF2B] text-[#0B0B0B] hover:bg-[#CEFF2B]/90"
-                  : "border-[#CEFF2B] bg-transparent text-[#CEFF2B] hover:bg-[#CEFF2B] hover:text-[#0B0B0B]"
+                ? "border-[#CEFF2B] bg-[#CEFF2B] text-[#0B0B0B] hover:bg-[#CEFF2B]/90"
+                : "border-[#CEFF2B] bg-transparent text-[#CEFF2B] hover:bg-[#CEFF2B] hover:text-[#0B0B0B]"
                 }`}
               style={{ letterSpacing: "0.1em" }}
               whileHover={{ scale: 1.03, y: -2 }}

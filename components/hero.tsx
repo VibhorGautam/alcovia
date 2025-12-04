@@ -191,41 +191,51 @@ export default function Hero() {
       </motion.div>
 
       {/* Hero grid layout */}
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-[1fr_auto_1fr]">
-        {/* Hero left - headline */}
-        <div className="hero-left flex flex-col items-center lg:items-start">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isRevealed ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-1">
+        {/* Decorative paper plane - top left */}
+        <motion.div
+          className="absolute left-6 top-8 z-30 lg:left-12 lg:top-12"
+          initial={{ opacity: 0, x: -50, rotate: -45 }}
+          animate={isRevealed ? { opacity: 1, x: 0, rotate: 0 } : {}}
+          transition={{ delay: 1.4, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            className="text-[#CEFF2B] drop-shadow-lg"
           >
-            <div className="reveal-line relative mb-2 overflow-hidden">
-              <motion.div
-                className="reveal-mask absolute inset-0 z-10 bg-[#CEFF2B]"
-                initial={{ x: "0%" }}
-                animate={isRevealed ? { x: "105%" } : {}}
-                transition={{ delay: 0.9, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
-              />
-              <h1 className="reveal-text text-5xl font-black uppercase tracking-tighter text-[#0C0C0C] md:text-7xl lg:text-8xl">
-                alcovia
-              </h1>
-            </div>
-            <div className="reveal-line relative overflow-hidden">
-              <motion.div
-                className="reveal-mask absolute inset-0 z-10 bg-[#CEFF2B]"
-                initial={{ x: "0%" }}
-                animate={isRevealed ? { x: "105%" } : {}}
-                transition={{ delay: 1.05, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
-              />
-              <p className="reveal-text max-w-sm text-sm text-[#0C0C0C]/70 md:text-base">
-                Empowering Indian teens to become tomorrow&apos;s leaders
-              </p>
-            </div>
-          </motion.div>
-        </div>
+            <path
+              d="M3 3l18 9-18 9 3-9-3-9z"
+              fill="currentColor"
+              opacity="0.2"
+            />
+            <path
+              d="M3 3l18 9-18 9 3-9-3-9z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <motion.line
+              x1="3"
+              y1="12"
+              x2="21"
+              y2="12"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeDasharray="2 2"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ delay: 1.6, duration: 0.6 }}
+            />
+          </svg>
+        </motion.div>
 
         {/* Hero center - portrait with wings */}
-        <div className="hero-center relative flex items-center justify-center">
+        <div className="hero-center relative flex items-center justify-center pt-8">
+
           {/* Left Wing - Angel wing image */}
           <div
             ref={leftWingRef}
@@ -340,8 +350,39 @@ export default function Hero() {
           </motion.p>
         </div>
 
-        {/* Hero right - CTA and decorative */}
-        <div className="hero-right flex flex-col items-center gap-6 lg:items-end">
+        {/* Hero bottom left - ALCOVIA heading and tagline */}
+        <motion.div
+          className="absolute bottom-8 left-6 z-30 lg:bottom-12 lg:left-12"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.2, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <div className="reveal-line relative mb-2 overflow-hidden">
+            <motion.div
+              className="reveal-mask absolute inset-0 z-10 bg-[#CEFF2B]"
+              initial={{ x: "0%" }}
+              animate={isRevealed ? { x: "105%" } : {}}
+              transition={{ delay: 1.3, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+            />
+            <h2 className="reveal-text text-5xl font-black uppercase tracking-tighter text-[#0C0C0C] md:text-6xl lg:text-7xl">
+              ALCOVIA
+            </h2>
+          </div>
+          <div className="reveal-line relative overflow-hidden">
+            <motion.div
+              className="reveal-mask absolute inset-0 z-10 bg-[#CEFF2B]"
+              initial={{ x: "0%" }}
+              animate={isRevealed ? { x: "105%" } : {}}
+              transition={{ delay: 1.45, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+            />
+            <p className="reveal-text max-w-sm text-sm text-[#0C0C0C]/70 md:text-base">
+              Empowering Indian teens to become tomorrow&apos;s leaders
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Hero bottom right - CTA button and scroll indicator */}
+        <div className="absolute bottom-8 right-6 z-30 flex flex-col items-center gap-6 lg:bottom-12 lg:right-12 lg:items-end">
           <motion.button
             className="group relative overflow-hidden rounded-full border-2 border-[#0C0C0C] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#CEFF2B]"
             initial={{ opacity: 0, y: 20 }}
@@ -370,11 +411,11 @@ export default function Hero() {
             <motion.div
               className="h-14 w-0.5 rounded-full bg-[#0C0C0C]/20"
               animate={{ scaleY: [1, 0.5, 1] }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             />
           </motion.div>
         </div>
       </div>
-    </motion.section>
+    </motion.section >
   )
 }
