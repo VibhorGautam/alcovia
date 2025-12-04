@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 import TextReveal from "./text-reveal"
@@ -53,6 +53,14 @@ const socials = [
 export default function SocialFan() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: "-50px" })
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const getRotation = (index: number) => {
     const center = (socials.length - 1) / 2
@@ -153,9 +161,9 @@ export default function SocialFan() {
                   ? {
                     opacity: 1,
                     y: 0,
-                    x: window.innerWidth < 768 ? 0 : getXOffset(index),
-                    rotate: window.innerWidth < 768 ? (index % 2 === 0 ? -3 : 3) : getRotation(index),
-                    scale: window.innerWidth < 768 ? 1 : getScale(index),
+                    x: isMobile ? 0 : getXOffset(index),
+                    rotate: isMobile ? (index % 2 === 0 ? -3 : 3) : getRotation(index),
+                    scale: isMobile ? 1 : getScale(index),
                   }
                   : {}
               }
@@ -168,13 +176,13 @@ export default function SocialFan() {
               }}
               style={{
                 transformOrigin: "bottom center",
-                zIndex: window.innerWidth < 768 ? index : getZIndex(index),
+                zIndex: isMobile ? index : getZIndex(index),
               }}
               whileHover={{
                 scale: 1.05,
                 rotate: 0,
                 zIndex: 50,
-                y: window.innerWidth < 768 ? 0 : -40,
+                y: isMobile ? 0 : -40,
                 boxShadow: "0 30px 60px rgba(0,0,0,0.3)",
                 transition: { duration: 0.3, type: "spring", stiffness: 200 },
               }}

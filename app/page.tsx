@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import CustomCursor from "@/components/custom-cursor"
 import Loader from "@/components/loader"
@@ -18,6 +18,16 @@ import MicroInteractions from "@/components/micro-interactions"
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // Prevent SSR rendering
+  if (!isMounted) {
+    return null
+  }
 
   return (
     <>
