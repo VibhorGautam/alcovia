@@ -8,15 +8,15 @@ const atSchool = {
   title: "AT",
   subtitle: "SCHOOL",
   handwritten: "at",
-  description: "Academic achievements, exam results, and learning milestones from the classroom.",
-  images: ["/images/atSchool.png","images/outsideSchool.png"],
+  description: "How Alcovia helps students ace school.",
+  images: ["/images/atSchool.png", "images/outsideSchool.png"],
 }
 
 const outsideSchool = {
   title: "OUTSIDE",
   subtitle: "SCHOOL",
   handwritten: "beyond",
-  description: "Real-world experiences, mentorship sessions, and skills that go beyond textbooks.",
+  description: "How Alcovia fulfills its mission of building differentiation for each Alcovian.",
   images: ["/images/atschool.png", "/images/outsideSchool.png"],
 }
 
@@ -105,16 +105,14 @@ export default function ToggleCompare() {
                   )}
                 </AnimatePresence>
                 <span
-                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${
-                    activeTab === "school" ? "text-dark" : "text-dark/30"
-                  }`}
+                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${activeTab === "school" ? "text-dark" : "text-dark/30"
+                    }`}
                 >
                   AT
                 </span>
                 <span
-                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${
-                    activeTab === "school" ? "text-dark" : "text-dark/30"
-                  }`}
+                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${activeTab === "school" ? "text-dark" : "text-dark/30"
+                    }`}
                 >
                   SCHOOL
                 </span>
@@ -151,16 +149,14 @@ export default function ToggleCompare() {
                   )}
                 </AnimatePresence>
                 <span
-                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${
-                    activeTab === "outside" ? "text-dark" : "text-dark/30"
-                  }`}
+                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${activeTab === "outside" ? "text-dark" : "text-dark/30"
+                    }`}
                 >
                   OUTSIDE
                 </span>
                 <span
-                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${
-                    activeTab === "outside" ? "text-dark" : "text-dark/30"
-                  }`}
+                  className={`block text-4xl font-black uppercase tracking-tight transition-colors md:text-5xl lg:text-6xl ${activeTab === "outside" ? "text-dark" : "text-dark/30"
+                    }`}
                 >
                   SCHOOL
                 </span>
@@ -184,9 +180,8 @@ export default function ToggleCompare() {
             {/* Action buttons */}
             <div className="flex gap-4">
               <motion.button
-                className={`flex h-12 w-12 items-center justify-center rounded-lg transition-colors ${
-                  activeTab === "school" ? "bg-neon text-dark" : "bg-dark/10 text-dark/50"
-                }`}
+                className={`flex h-12 w-12 items-center justify-center rounded-lg transition-colors ${activeTab === "school" ? "bg-neon text-dark" : "bg-dark/10 text-dark/50"
+                  }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveTab("school")}
@@ -196,9 +191,8 @@ export default function ToggleCompare() {
                 </svg>
               </motion.button>
               <motion.button
-                className={`flex h-12 w-12 items-center justify-center rounded-lg transition-colors ${
-                  activeTab === "outside" ? "bg-neon text-dark" : "bg-dark/10 text-dark/50"
-                }`}
+                className={`flex h-12 w-12 items-center justify-center rounded-lg transition-colors ${activeTab === "outside" ? "bg-neon text-dark" : "bg-dark/10 text-dark/50"
+                  }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveTab("outside")}

@@ -11,30 +11,35 @@ const socials = [
     handle: "@alcovia",
     followers: "",
     image: "/placeholder.svg?height=500&width=340",
+    url: "https://twitter.com/alcovia",
   },
   {
     platform: "Instagram",
     handle: "@alcovia.in",
     followers: "639",
     image: "/placeholder.svg?height=500&width=340",
+    url: "https://instagram.com/alcovia.in",
   },
   {
     platform: "LinkedIn",
     handle: "Alcovia",
     followers: "1,190",
     image: "/placeholder.svg?height=500&width=340",
+    url: "https://linkedin.com/company/alcovia",
   },
   {
     platform: "YouTube",
     handle: "Alcovia",
     followers: "10K",
     image: "/placeholder.svg?height=500&width=340",
+    url: "https://youtube.com/@alcovia",
   },
   {
     platform: "Newsletter",
     handle: "Weekly Insights",
     followers: "20K",
     image: "/placeholder.svg?height=500&width=340",
+    url: "#newsletter",
   },
 ]
 

@@ -264,22 +264,31 @@ export default function CustomCursor() {
         }}
       />
 
-      {/* Paper plane cursor (visible in hero mode) */}
+      {/* Wing cursor (visible in hero mode) - "Alcovian with wing on back" */}
       <svg
         ref={planeRef}
         className="pointer-events-none fixed left-0 top-0 z-[10000]"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill={COLORS.accent}
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
         style={{
-          transform: "translate(-50%, -50%) rotate(-30deg)",
+          transform: "translate(-50%, -50%) rotate(-15deg)",
           opacity: isVisible && isOverHero ? 1 : 0,
           transition: "opacity 200ms",
-          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
+          filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.3))",
         }}
       >
-        <path d="M3 3l18 9-18 9 3-9-3-9z" />
+        {/* Wing shape - stylized feathered wing */}
+        <path
+          d="M4 24C4 24 6 18 10 14C14 10 20 6 28 4C28 4 24 10 20 14C16 18 12 22 4 24Z"
+          fill={COLORS.accent}
+          stroke="#0B0B0B"
+          strokeWidth="0.5"
+        />
+        {/* Feather details */}
+        <path d="M8 20C10 16 14 12 20 8" stroke="#0B0B0B" strokeWidth="0.3" fill="none" opacity="0.5" />
+        <path d="M10 18C12 14 16 10 22 6" stroke="#0B0B0B" strokeWidth="0.3" fill="none" opacity="0.5" />
+        <path d="M12 16C14 12 18 8 24 4" stroke="#0B0B0B" strokeWidth="0.3" fill="none" opacity="0.3" />
       </svg>
 
       {/* Inner dot - 8-14px based on state */}
