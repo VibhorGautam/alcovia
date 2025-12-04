@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-[#000000] px-6 py-24 md:px-12"
+      className="relative overflow-hidden bg-[#000000] px-6 pb-0 pt-16 md:px-12"
     >
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -60,9 +60,34 @@ export default function Footer() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[80vh] max-w-7xl flex-col justify-center">
-        {/* Giant ALCOVIA text with mask-wipe reveal */}
-        <motion.div className="relative flex flex-1 items-center justify-center py-8" style={{ y: textY }}>
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col">
+        {/* Top bar with links */}
+        <motion.div
+          className="flex flex-col items-center justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:gap-4"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-center text-sm text-white/50 md:text-left">
+            © {new Date().getFullYear()} Alcovia. All rights reserved.
+          </p>
+          <nav className="flex flex-wrap justify-center gap-6">
+            {["About", "Programs", "Team", "Contact"].map((link) => (
+              <Link
+                key={link}
+                href={`/${link.toLowerCase()}`}
+                className="group relative text-sm uppercase tracking-wider text-white/50 transition-colors hover:text-[#CEFF2B]"
+                style={{ letterSpacing: "0.1em" }}
+              >
+                {link}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#CEFF2B] transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
+          </nav>
+        </motion.div>
+
+        {/* Giant ALCOVIA text at bottom */}
+        <motion.div className="relative mt-12 overflow-hidden" style={{ y: textY }}>
           <div className="relative overflow-hidden">
             {/* Mask that wipes away */}
             <motion.div
@@ -72,13 +97,14 @@ export default function Footer() {
               transition={{ delay: 0.3, duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
             />
 
-            {/* ALCOVIA text */}
+            {/* ALCOVIA text - pushed to bottom edge */}
             <motion.h2
-              className="select-none text-center text-[20vw] font-black uppercase leading-none tracking-tighter md:text-[15vw]"
+              className="select-none text-center text-[22vw] font-black uppercase leading-[0.75] tracking-tighter md:text-[20vw]"
               style={{
                 WebkitTextStroke: "4px #CEFF2B",
                 WebkitTextFillColor: "transparent",
                 filter: "drop-shadow(0 0 40px rgba(206,255,43,0.3))",
+                marginBottom: "-0.1em",
               }}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 0.9 } : {}}
@@ -98,31 +124,6 @@ export default function Footer() {
               </motion.span>
             </motion.h2>
           </div>
-        </motion.div>
-
-        {/* Bottom bar */}
-        <motion.div
-          className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 md:flex-row md:gap-4"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 1.2 }}
-        >
-          <p className="text-center text-sm text-white/50 md:text-left">
-            © {new Date().getFullYear()} Alcovia. All rights reserved.
-          </p>
-          <nav className="flex flex-wrap justify-center gap-6">
-            {["About", "Programs", "Team", "Contact"].map((link) => (
-              <Link
-                key={link}
-                href={`/${link.toLowerCase()}`}
-                className="group relative text-sm uppercase tracking-wider text-white/50 transition-colors hover:text-[#CEFF2B]"
-                style={{ letterSpacing: "0.1em" }}
-              >
-                {link}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-[#CEFF2B] transition-all duration-300 group-hover:w-full" />
-              </Link>
-            ))}
-          </nav>
         </motion.div>
       </div>
     </footer>
