@@ -9,26 +9,26 @@ const offerings = [
   {
     title: "Career Discovery",
     description: "Workshops to explore your passion",
-    image: "/placeholder.svg?height=400&width=300",
-    size: "large",
+    image: "/images/carrerDiscovery.png",
+    size: "wide",
   },
   {
     title: "Podcast Shoots",
     description: "With industry leaders",
-    image: "/placeholder.svg?height=300&width=300",
+    image: "/images/podcast.jpeg",
     size: "medium",
   },
   {
     title: "1:1 Mentorship",
     description: "Personalized guidance",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "/images/oneonone.jpeg",
     size: "wide",
   },
   {
     title: "Academic Excellence",
     description: "Performance improvement",
-    image: "/placeholder.svg?height=400&width=300",
-    size: "tall",
+    image: "/images/academic.jpeg",
+    size: "wide",
   },
   {
     title: "Forge Bonds",
@@ -40,7 +40,7 @@ const offerings = [
     title: "Harvard/UCL Mentorship",
     description: "Weekly guidance sessions",
     image: "/placeholder.svg?height=300&width=400",
-    size: "wide",
+    size: "tall-wide",
   },
   {
     title: "Counsellor Meetings",
@@ -104,15 +104,14 @@ export default function OfferingsHorizontal() {
               <motion.div
                 key={offering.title}
                 data-card
-                className={`group relative overflow-hidden rounded-2xl ${
-                  offering.size === "large"
+                className={`group relative overflow-hidden rounded-2xl ${offering.size === "large"
                     ? "row-span-2"
                     : offering.size === "tall"
                       ? "row-span-2"
                       : offering.size === "wide"
                         ? "col-span-1"
                         : ""
-                }`}
+                  }`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}

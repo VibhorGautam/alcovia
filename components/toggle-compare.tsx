@@ -9,7 +9,7 @@ const atSchool = {
   subtitle: "SCHOOL",
   handwritten: "at",
   description: "Academic achievements, exam results, and learning milestones from the classroom.",
-  images: ["/placeholder.svg?height=500&width=350", "/placeholder.svg?height=500&width=350"],
+  images: ["/images/atSchool.png","images/outsideSchool.png"],
 }
 
 const outsideSchool = {
@@ -17,7 +17,7 @@ const outsideSchool = {
   subtitle: "SCHOOL",
   handwritten: "beyond",
   description: "Real-world experiences, mentorship sessions, and skills that go beyond textbooks.",
-  images: ["/placeholder.svg?height=500&width=350", "/placeholder.svg?height=500&width=350"],
+  images: ["/images/atschool.png", "/images/outsideSchool.png"],
 }
 
 export default function ToggleCompare() {
@@ -60,7 +60,7 @@ export default function ToggleCompare() {
                 transition={{ duration: 0.7, type: "spring", stiffness: 150, damping: 25 }}
               >
                 <Image
-                  src={currentData.images[0] || "/placeholder.svg"}
+                  src={currentData.images[0] || "/images/atSchool.png"}
                   alt={`${currentData.title} experience`}
                   fill
                   className="object-cover"
