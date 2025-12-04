@@ -172,9 +172,9 @@ export default function PremiumNavbar() {
               <Image
                 src="/images/alcovia-logo.png"
                 alt="ALCOVIA"
-                width={300}
-                height={150}
-                className={`h-auto transition-all duration-300 ${scrolled ? "w-[90px]" : "w-[110px]"}`}
+                width={100}
+                height={100}
+                className={`h-[150px] transition-all duration-300 ${scrolled ? "w-[220px]" : "w-[220px]"}`}
                 style={{
                   filter: navMode === "light"
                     ? "brightness(1.2) invert(0)"
