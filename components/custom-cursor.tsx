@@ -30,7 +30,6 @@ export default function CustomCursor() {
     setShouldRender(!prefersReducedMotion && !isTouchDevice)
   }, [])
 
-  // Spawn spark on fast movement
   const spawnSpark = useCallback((x: number, y: number) => {
     if (!sparkContainerRef.current || checkReducedMotion()) return
 
@@ -48,7 +47,6 @@ export default function CustomCursor() {
 
     sparkContainerRef.current.appendChild(spark)
 
-    // Random direction
     const angle = Math.random() * Math.PI * 2
     const distance = 15 + Math.random() * 20
 
@@ -69,7 +67,6 @@ export default function CustomCursor() {
       const now = Date.now()
       const dt = Math.max(1, now - lastPosRef.current.t)
 
-      // Calculate velocity
       const vx = (clientX - lastPosRef.current.x) / dt
       const vy = (clientY - lastPosRef.current.y) / dt
       const speed = Math.sqrt(vx * vx + vy * vy)
@@ -78,12 +75,10 @@ export default function CustomCursor() {
       lastPosRef.current = { x: clientX, y: clientY, t: now }
       positionRef.current = { x: clientX, y: clientY }
 
-      // Spawn sparks on fast movement (when in hero mode)
       if (speed > 0.8 && isOverHero && Math.random() > 0.7) {
         spawnSpark(clientX, clientY)
       }
 
-      // Inner cursor - immediate follow
       if (innerRef.current) {
         gsap.to(innerRef.current, {
           x: clientX,
@@ -94,7 +89,6 @@ export default function CustomCursor() {
         })
       }
 
-      // Outer cursor - trailing with delay
       if (outerRef.current) {
         gsap.to(outerRef.current, {
           x: clientX,
@@ -105,7 +99,6 @@ export default function CustomCursor() {
         })
       }
 
-      // Paper plane - follows with slight rotation based on velocity
       if (planeRef.current && isOverHero) {
         const rotation = Math.atan2(vy, vx) * (180 / Math.PI) + 30
         gsap.to(planeRef.current, {
@@ -118,7 +111,6 @@ export default function CustomCursor() {
         })
       }
 
-      // Glow trail - even more delayed
       if (glowRef.current && isHoveringNeon) {
         gsap.to(glowRef.current, {
           x: clientX,
@@ -137,7 +129,6 @@ export default function CustomCursor() {
   const handleElementHover = useCallback((e: MouseEvent) => {
     const target = e.target as HTMLElement
 
-    // Check for neon elements
     const isNeon =
       target.classList.contains("bg-neon") ||
       target.classList.contains("text-neon") ||
@@ -145,14 +136,12 @@ export default function CustomCursor() {
 
     setIsHoveringNeon(isNeon)
 
-    // Check if over hero portrait area
     const isHeroPortrait =
       target.closest(".hero-center") !== null ||
       target.closest('[id="hero"]')?.contains(target.closest(".hero-center") || null)
 
     setIsOverHero(isHeroPortrait!)
 
-    // Determine cursor state
     const cursorAttr = target.getAttribute("data-cursor")
     if (cursorAttr) {
       setCursorState(cursorAttr as CursorState)
@@ -193,7 +182,6 @@ export default function CustomCursor() {
 
   if (!shouldRender) return null
 
-  // Cursor sizes and styles based on state
   const getOuterSize = () => {
     switch (cursorState) {
       case "hover-hero":
@@ -248,10 +236,8 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Spark container */}
       <div ref={sparkContainerRef} className="pointer-events-none fixed inset-0 z-[9995]" />
 
-      {/* Glow trail for neon elements */}
       <div
         ref={glowRef}
         className="pointer-events-none fixed left-0 top-0 z-[9996] h-24 w-24 rounded-full"
@@ -264,7 +250,6 @@ export default function CustomCursor() {
         }}
       />
 
-      {/* Wing cursor (visible in hero mode) - "Alcovian with wing on back" */}
       <svg
         ref={planeRef}
         className="pointer-events-none fixed left-0 top-0 z-[10000]"
@@ -278,20 +263,17 @@ export default function CustomCursor() {
           filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.3))",
         }}
       >
-        {/* Wing shape - stylized feathered wing */}
         <path
           d="M4 24C4 24 6 18 10 14C14 10 20 6 28 4C28 4 24 10 20 14C16 18 12 22 4 24Z"
           fill={COLORS.accent}
           stroke="#0B0B0B"
           strokeWidth="0.5"
         />
-        {/* Feather details */}
         <path d="M8 20C10 16 14 12 20 8" stroke="#0B0B0B" strokeWidth="0.3" fill="none" opacity="0.5" />
         <path d="M10 18C12 14 16 10 22 6" stroke="#0B0B0B" strokeWidth="0.3" fill="none" opacity="0.5" />
         <path d="M12 16C14 12 18 8 24 4" stroke="#0B0B0B" strokeWidth="0.3" fill="none" opacity="0.3" />
       </svg>
 
-      {/* Inner dot - 8-14px based on state */}
       <div
         ref={innerRef}
         className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full mix-blend-difference"
@@ -305,7 +287,6 @@ export default function CustomCursor() {
         }}
       />
 
-      {/* Outer halo - 36-64px based on state with accent glow */}
       <div
         ref={outerRef}
         className="pointer-events-none fixed left-0 top-0 z-[9998] flex items-center justify-center rounded-full"
@@ -327,7 +308,6 @@ export default function CustomCursor() {
                 : "none",
         }}
       >
-        {/* Cursor content based on state */}
         {cursorState === "hover-link" && (
           <div className="h-1 w-4 rounded-full bg-[#CEFF2B]" style={{ transform: "translateY(8px)" }} />
         )}
@@ -338,6 +318,7 @@ export default function CustomCursor() {
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         )}

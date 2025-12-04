@@ -7,7 +7,6 @@ import Image from "next/image"
 
 type NavMode = "light" | "dark"
 
-// Navigation structure with dropdown support
 interface NavItem {
   label: string
   href: string
@@ -28,13 +27,13 @@ const navLinks: NavItem[] = [
     label: "PROGRAMS",
     href: "/programs",
     hasDropdown: true,
-    dropdownItems: []  // Empty for user to fill
+    dropdownItems: []
   },
   {
     label: "ABOUT",
     href: "/about",
     hasDropdown: true,
-    dropdownItems: []  // Empty for user to fill
+    dropdownItems: []
   },
   {
     label: "TEAM",
@@ -58,7 +57,6 @@ export default function PremiumNavbar() {
   const navRef = useRef<HTMLElement>(null)
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Color-adaptive behavior with enhanced section detection
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY
@@ -69,7 +67,6 @@ export default function PremiumNavbar() {
       const navRect = navRef.current.getBoundingClientRect()
       const navCenter = navRect.top + navRect.height / 2
 
-      // Check all dark sections
       const darkSections = document.querySelectorAll('[data-theme="graded"], [data-theme="dark"]')
       let isOverDark = false
 
@@ -80,7 +77,6 @@ export default function PremiumNavbar() {
         }
       })
 
-      // Check manifesto section specifically
       const manifesto = document.querySelector('.bg-\\[\\#3d4a2a\\]') as HTMLElement
       if (manifesto) {
         const manifestoRect = manifesto.getBoundingClientRect()
@@ -89,7 +85,6 @@ export default function PremiumNavbar() {
         }
       }
 
-      // Check footer
       const footer = document.querySelector("footer")
       if (footer) {
         const footerRect = footer.getBoundingClientRect()
@@ -106,7 +101,6 @@ export default function PremiumNavbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Handle dropdown hover with delay
   const handleDropdownEnter = useCallback((label: string) => {
     if (dropdownTimeoutRef.current) {
       clearTimeout(dropdownTimeoutRef.current)
@@ -120,12 +114,10 @@ export default function PremiumNavbar() {
     }, 150)
   }, [])
 
-  // Navbar height based on scroll state
   const navHeight = scrolled ? "h-[65px]" : "h-[75px]"
 
   return (
     <>
-      {/* Gradient glow behind navbar */}
       <div
         className="pointer-events-none fixed left-0 right-0 top-0 z-40 h-32"
         style={{
@@ -162,7 +154,6 @@ export default function PremiumNavbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-          {/* Left - Logo */}
           <Link href="/" className="z-10">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -185,7 +176,6 @@ export default function PremiumNavbar() {
             </motion.div>
           </Link>
 
-          {/* Center - Nav Links (Desktop) */}
           <nav className="hidden items-center gap-2 lg:flex">
             {navLinks.map((link) => (
               <div
@@ -203,7 +193,6 @@ export default function PremiumNavbar() {
                   {link.label}
                 </NavLink>
 
-                {/* Dropdown Menu */}
                 <AnimatePresence>
                   {link.hasDropdown && activeDropdown === link.label && (
                     <DropdownMenu
@@ -217,25 +206,22 @@ export default function PremiumNavbar() {
             ))}
           </nav>
 
-          {/* Right - Secondary Links & CTA */}
           <div className="flex items-center gap-4">
-            {/* Sign In link - Desktop only */}
             <Link
               href="/signin"
               className={`hidden text-sm font-medium uppercase tracking-wider transition-all duration-300 hover:opacity-100 md:block ${navMode === "light"
-                  ? "text-white/70 hover:text-white"
-                  : "text-[#0B0B0B]/70 hover:text-[#0B0B0B]"
+                ? "text-white/70 hover:text-white"
+                : "text-[#0B0B0B]/70 hover:text-[#0B0B0B]"
                 }`}
               style={{ letterSpacing: "0.75px" }}
             >
               Sign In
             </Link>
 
-            {/* CTA Button - Apply Now */}
             <motion.button
               className={`hidden rounded-full px-6 py-2.5 text-sm font-bold uppercase tracking-wider transition-all duration-300 md:block ${navMode === "light"
-                  ? "bg-white text-[#0B0B0B] hover:bg-[#CEFF2B]"
-                  : "bg-[#0B0B0B] text-white hover:bg-[#CEFF2B] hover:text-[#0B0B0B]"
+                ? "bg-white text-[#0B0B0B] hover:bg-[#CEFF2B]"
+                : "bg-[#0B0B0B] text-white hover:bg-[#CEFF2B] hover:text-[#0B0B0B]"
                 }`}
               style={{
                 letterSpacing: "0.1em",
@@ -254,12 +240,11 @@ export default function PremiumNavbar() {
               APPLY NOW
             </motion.button>
 
-            {/* Mobile Hamburger */}
             <motion.button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`relative flex h-10 w-10 items-center justify-center rounded-lg lg:hidden ${navMode === "light"
-                  ? "hover:bg-white/10"
-                  : "hover:bg-black/10"
+                ? "hover:bg-white/10"
+                : "hover:bg-black/10"
                 }`}
               aria-label="Toggle menu"
               whileHover={{ scale: 1.05 }}
@@ -307,11 +292,9 @@ export default function PremiumNavbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Panel */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               className="fixed inset-0 z-40 lg:hidden"
               style={{
@@ -325,7 +308,6 @@ export default function PremiumNavbar() {
               onClick={() => setMobileMenuOpen(false)}
             />
 
-            {/* Slide-in Panel */}
             <motion.div
               className="fixed right-0 top-0 z-50 h-full w-[85%] max-w-[400px] lg:hidden"
               style={{
@@ -339,7 +321,6 @@ export default function PremiumNavbar() {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               <div className="flex h-full flex-col p-8">
-                {/* Close Button */}
                 <motion.button
                   onClick={() => setMobileMenuOpen(false)}
                   className="group mb-12 flex h-12 w-12 items-center justify-center self-end rounded-full border border-[#CEFF2B]/30 transition-all hover:border-[#CEFF2B] hover:bg-[#CEFF2B]/10"
@@ -360,7 +341,6 @@ export default function PremiumNavbar() {
                   </svg>
                 </motion.button>
 
-                {/* Mobile Nav Links */}
                 <nav className="flex flex-col gap-2">
                   {navLinks.map((link, index) => (
                     <motion.div
@@ -393,7 +373,6 @@ export default function PremiumNavbar() {
                             </motion.svg>
                           </button>
 
-                          {/* Accordion Content */}
                           <AnimatePresence>
                             {mobileAccordion === link.label && (
                               <motion.div
@@ -448,7 +427,6 @@ export default function PremiumNavbar() {
                   ))}
                 </nav>
 
-                {/* Mobile Sign In */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -465,7 +443,6 @@ export default function PremiumNavbar() {
                   </Link>
                 </motion.div>
 
-                {/* Mobile CTA Button */}
                 <motion.button
                   className="mt-auto w-full rounded-full border-2 border-[#CEFF2B] bg-[#CEFF2B] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0B0B0B] transition-all"
                   style={{
@@ -489,7 +466,6 @@ export default function PremiumNavbar() {
   )
 }
 
-// NavLink component with magnetic effect, hover animations, and dropdown indicator
 function NavLink({
   href,
   children,
@@ -522,7 +498,6 @@ function NavLink({
       Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
     )
 
-    // Magnetic effect within 60px
     if (distance < 60) {
       x.set((e.clientX - centerX) * 0.12)
       y.set((e.clientY - centerY) * 0.12)
@@ -560,8 +535,8 @@ function NavLink({
       >
         <motion.span
           className={`relative transition-all duration-300 ${mode === "light"
-              ? "text-white/70 group-hover:text-white"
-              : "text-[#0B0B0B]/70 group-hover:text-[#0B0B0B]"
+            ? "text-white/70 group-hover:text-white"
+            : "text-[#0B0B0B]/70 group-hover:text-[#0B0B0B]"
             }`}
           animate={{ y: isHovered ? -2 : 0 }}
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -569,7 +544,6 @@ function NavLink({
           {children}
         </motion.span>
 
-        {/* Dropdown Arrow */}
         {hasDropdown && (
           <motion.svg
             width="12"
@@ -579,8 +553,8 @@ function NavLink({
             stroke="currentColor"
             strokeWidth="2"
             className={`transition-colors duration-300 ${mode === "light"
-                ? "text-white/50 group-hover:text-white"
-                : "text-[#0B0B0B]/50 group-hover:text-[#0B0B0B]"
+              ? "text-white/50 group-hover:text-white"
+              : "text-[#0B0B0B]/50 group-hover:text-[#0B0B0B]"
               }`}
             animate={{
               rotate: isDropdownOpen ? 180 : 0,
@@ -592,7 +566,6 @@ function NavLink({
           </motion.svg>
         )}
 
-        {/* Underline that grows from center */}
         <motion.span
           className="absolute bottom-0 left-1/2 h-[2px] -translate-x-1/2 bg-[#CEFF2B]"
           initial={{ width: 0 }}
@@ -603,7 +576,6 @@ function NavLink({
           }}
         />
 
-        {/* Glow effect behind text */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
@@ -623,7 +595,6 @@ function NavLink({
   )
 }
 
-// Dropdown Menu Component
 function DropdownMenu({
   items,
   onMouseEnter,
@@ -688,7 +659,6 @@ function DropdownMenu({
   )
 }
 
-// Individual Dropdown Item
 function DropdownItem({
   item,
 }: {
@@ -708,7 +678,6 @@ function DropdownItem({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background gradient sweep */}
       <motion.div
         className="absolute inset-0 rounded-xl"
         style={{

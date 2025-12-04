@@ -1,14 +1,4 @@
-/**
- * Hero Animations Module
- * GSAP 3 timelines for the Alcovia hero section
- * Implements cinematic "take flight" experience
- */
-
 import gsap from "gsap"
-
-// ============================================
-// UTILITY: Reduced Motion Detection
-// ============================================
 
 export const checkReducedMotion = (): boolean => {
     if (typeof window === "undefined") return false
@@ -19,10 +9,6 @@ export const isMobile = (): boolean => {
     if (typeof window === "undefined") return false
     return window.innerWidth < 768
 }
-
-// ============================================
-// CSS Variables / Tokens
-// ============================================
 
 export const COLORS = {
     accent: "#CEFF2B",
@@ -37,10 +23,6 @@ export const TIMING = {
     wingRevealDuration: 1.2,
     ctaBloomDuration: 0.6,
 }
-
-// ============================================
-// PAGE LOAD TIMELINE
-// ============================================
 
 interface PageLoadTimelineOptions {
     parallaxLayers?: HTMLElement[]
@@ -63,7 +45,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         },
     })
 
-    // If reduced motion, just do simple fades
     if (reducedMotion) {
         if (options.parallaxLayers) {
             tl.to(options.parallaxLayers, { opacity: 1, duration: 0.5 })
@@ -77,7 +58,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         return tl
     }
 
-    // 1. Parallax grids fade-in with stagger
     if (options.parallaxLayers && options.parallaxLayers.length > 0) {
         tl.fromTo(
             options.parallaxLayers,
@@ -91,7 +71,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         )
     }
 
-    // 2. Radial spotlight breathe (starts and loops)
     if (options.spotlight) {
         tl.fromTo(
             options.spotlight,
@@ -101,7 +80,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         )
     }
 
-    // 3. Student element subtle pop
     if (options.student) {
         tl.fromTo(
             options.student,
@@ -117,7 +95,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         )
     }
 
-    // 4. Headline reveal with shimmer
     if (options.headline) {
         tl.fromTo(
             options.headline,
@@ -131,7 +108,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         )
     }
 
-    // 5. Tagline reveal
     if (options.tagline) {
         tl.fromTo(
             options.tagline,
@@ -145,7 +121,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
         )
     }
 
-    // 6. CTA neon bloom
     if (options.cta) {
         tl.fromTo(
             options.cta,
@@ -160,7 +135,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
             "-=0.5"
         )
 
-        // Fade the glow after bloom
         tl.to(
             options.cta,
             {
@@ -174,10 +148,6 @@ export function initPageLoadTimeline(options: PageLoadTimelineOptions) {
     return tl
 }
 
-// ============================================
-// SPOTLIGHT BREATHING ANIMATION
-// ============================================
-
 export function initSpotlightBreathing(spotlight: HTMLElement) {
     if (checkReducedMotion()) return null
 
@@ -190,10 +160,6 @@ export function initSpotlightBreathing(spotlight: HTMLElement) {
         yoyo: true,
     })
 }
-
-// ============================================
-// WING ANIMATIONS (Enhanced)
-// ============================================
 
 interface WingAnimationOptions {
     leftWing: HTMLElement
@@ -214,7 +180,6 @@ export function createWingRevealTimeline(options: WingAnimationOptions) {
         return tl
     }
 
-    // Left wing reveal with mask
     tl.fromTo(
         options.leftWing,
         {
@@ -237,7 +202,6 @@ export function createWingRevealTimeline(options: WingAnimationOptions) {
         }
     )
 
-    // Right wing reveal with mask (overlapping)
     tl.fromTo(
         options.rightWing,
         {
@@ -261,7 +225,6 @@ export function createWingRevealTimeline(options: WingAnimationOptions) {
         "<0.1"
     )
 
-    // Add neon bloom
     if (options.wingsContainer) {
         tl.fromTo(
             options.wingsContainer,
@@ -335,10 +298,6 @@ export function createWingFoldAnimation(
         paused: true,
     })
 }
-
-// ============================================
-// CTA BUTTON ANIMATIONS
-// ============================================
 
 interface CTAAnimationOptions {
     button: HTMLElement
@@ -451,10 +410,6 @@ export function createCTAClickRipple(button: HTMLElement, e: MouseEvent) {
     })
 }
 
-// ============================================
-// PAPER-PLANE TRAIL
-// ============================================
-
 interface PaperPlaneTrailOptions {
     container: HTMLElement
     fadeDelay?: number
@@ -468,7 +423,6 @@ export function createPaperPlaneTrail(options: PaperPlaneTrailOptions) {
     let pathEl: SVGPathElement | null = null
     let svg: SVGSVGElement | null = null
 
-    // Create SVG container
     svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
     svg.style.cssText = `
     position: fixed;
@@ -497,7 +451,6 @@ export function createPaperPlaneTrail(options: PaperPlaneTrailOptions) {
         if (!pathEl || points.length < 2) return
 
         const now = Date.now()
-        // Remove old points
         while (points.length > 0 && now - points[0].time > fadeDelay) {
             points.shift()
         }
@@ -507,7 +460,6 @@ export function createPaperPlaneTrail(options: PaperPlaneTrailOptions) {
             return
         }
 
-        // Create smooth curve through points
         let d = `M ${points[0].x} ${points[0].y}`
         for (let i = 1; i < points.length; i++) {
             const p0 = points[i - 1]
@@ -520,7 +472,6 @@ export function createPaperPlaneTrail(options: PaperPlaneTrailOptions) {
 
         pathEl.setAttribute("d", d)
 
-        // Animate dash offset
         const length = pathEl.getTotalLength()
         pathEl.style.strokeDashoffset = `${length}`
         gsap.to(pathEl, {
@@ -549,7 +500,6 @@ export function createPaperPlaneTrail(options: PaperPlaneTrailOptions) {
         },
         addPoint: (x: number, y: number) => {
             points.push({ x, y, time: Date.now() })
-            // Keep max 50 points
             if (points.length > 50) points.shift()
         },
         destroy: () => {
@@ -559,10 +509,6 @@ export function createPaperPlaneTrail(options: PaperPlaneTrailOptions) {
         },
     }
 }
-
-// ============================================
-// PARTICLE SYSTEM (Ambient + Sparks)
-// ============================================
 
 interface ParticleOptions {
     container: HTMLElement
@@ -590,7 +536,6 @@ export function createAmbientParticles(options: ParticleOptions) {
         container.appendChild(particle)
         particles.push(particle)
 
-        // Animate particle
         gsap.to(particle, {
             opacity: 0.3 + Math.random() * 0.4,
             duration: 1 + Math.random() * 2,
@@ -599,7 +544,6 @@ export function createAmbientParticles(options: ParticleOptions) {
             yoyo: true,
         })
 
-        // Float animation
         gsap.to(particle, {
             x: -20 + Math.random() * 40,
             y: -30 + Math.random() * 60,
@@ -610,7 +554,6 @@ export function createAmbientParticles(options: ParticleOptions) {
         })
     }
 
-    // Create initial particles
     for (let i = 0; i < maxParticles; i++) {
         setTimeout(() => createParticle(), i * 100)
     }
@@ -657,10 +600,6 @@ export function createSparkBurst(x: number, y: number, container: HTMLElement, c
     }
 }
 
-// ============================================
-// PLANE TAKEOFF ANIMATION (CTA Click Flourish)
-// ============================================
-
 export function createPlaneTakeoff(container: HTMLElement, startX: number, startY: number) {
     if (checkReducedMotion()) return null
 
@@ -683,7 +622,6 @@ export function createPlaneTakeoff(container: HTMLElement, startX: number, start
 
     container.appendChild(plane)
 
-    // Arc path animation
     const tl = gsap.timeline({
         onComplete: () => plane.remove(),
     })
@@ -701,10 +639,6 @@ export function createPlaneTakeoff(container: HTMLElement, startX: number, start
     return tl
 }
 
-// ============================================
-// DOODLES & MICRO-QUOTES
-// ============================================
-
 interface DoodleOptions {
     container: HTMLElement
     quotes?: string[]
@@ -717,7 +651,6 @@ export function createFloatingDoodles(options: DoodleOptions) {
 
     const doodles: HTMLElement[] = []
 
-    // Create small star doodles
     const starPositions = [
         { left: "10%", top: "20%" },
         { left: "85%", top: "15%" },
@@ -733,7 +666,6 @@ export function createFloatingDoodles(options: DoodleOptions) {
         container.appendChild(star)
         doodles.push(star)
 
-        // Float animation
         gsap.to(star, {
             x: -10 + Math.random() * 20,
             y: -15 + Math.random() * 30,
@@ -753,7 +685,6 @@ export function createFloatingDoodles(options: DoodleOptions) {
         })
     })
 
-    // Create floating quote
     let quoteIndex = 0
     const quoteEl = document.createElement("div")
     quoteEl.className =
@@ -762,7 +693,6 @@ export function createFloatingDoodles(options: DoodleOptions) {
     container.appendChild(quoteEl)
     doodles.push(quoteEl)
 
-    // Rotate quotes
     const rotateQuote = () => {
         gsap.to(quoteEl, {
             opacity: 0,
