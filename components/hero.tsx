@@ -336,7 +336,7 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-1">
         <motion.div
-          className="absolute left-6 top-8 z-30 lg:left-12 lg:top-12"
+          className="absolute left-6 top-8 z-30 hidden md:block lg:left-12 lg:top-12"
           initial={{ opacity: 0, x: -50, rotate: -45 }}
           animate={isRevealed ? { opacity: 1, x: 0, rotate: 0 } : {}}
           transition={{ delay: 1.4, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -385,12 +385,12 @@ export default function Hero() {
         </motion.div>
 
         <div
-          className="hero-center relative flex items-center justify-center pt-8"
+          className="hero-center relative flex items-center justify-center pt-20 md:pt-8"
           onClick={handleMobileTap}
         >
           <div
             ref={wingsContainerRef}
-            className="pointer-events-none absolute inset-0 z-10"
+            className="pointer-events-none absolute inset-0 z-10 hidden md:block"
             role="img"
             aria-label="Wings symbolising growth and potential"
           >
@@ -542,7 +542,38 @@ export default function Hero() {
         </div>
 
         <motion.div
-          className="absolute bottom-8 left-6 z-30 lg:bottom-12 lg:left-12"
+          className="relative z-30 mt-6 flex flex-col items-center text-center md:hidden"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.2, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <h2 className="text-4xl font-black uppercase tracking-tighter text-[#0C0C0C]">
+            ALCOVIA
+          </h2>
+          <p className="mt-2 max-w-xs text-sm text-[#0C0C0C]/70">
+            Empowering Indian teens to become tomorrow&apos;s leaders
+          </p>
+          <motion.button
+            className="group relative mt-6 overflow-hidden rounded-full border-2 border-[#0C0C0C] px-6 py-3 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#CEFF2B]"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={handleCTAClick}
+            aria-label="Start your journey at Alcovia"
+          >
+            <span className="relative z-10 transition-colors group-hover:text-[#0C0C0C]">
+              Start Your Journey
+            </span>
+            <motion.div
+              className="absolute inset-0 -z-0 bg-[#CEFF2B]"
+              initial={{ x: "-100%" }}
+              whileHover={{ x: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </motion.button>
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-8 left-6 z-30 hidden md:block lg:bottom-12 lg:left-12"
           initial={{ opacity: 0, y: 40 }}
           animate={isRevealed ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 1.2, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -577,7 +608,7 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        <div className="absolute bottom-8 right-6 z-30 flex flex-col items-center gap-6 lg:bottom-12 lg:right-12 lg:items-end">
+        <div className="absolute bottom-8 right-6 z-30 hidden flex-col items-center gap-6 md:flex lg:bottom-12 lg:right-12 lg:items-end">
           <motion.button
             ref={ctaRef}
             className="group relative overflow-hidden rounded-full border-2 border-[#0C0C0C] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#CEFF2B] focus:outline-none focus:ring-2 focus:ring-[#CEFF2B] focus:ring-offset-2 md:px-8 md:py-4"
