@@ -33,12 +33,12 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
 
     const duration = 2000
     const startTime = Date.now()
-    
+
     const animate = () => {
       const elapsed = Date.now() - startTime
       const newProgress = Math.min((elapsed / duration) * 100, 100)
       setProgress(Math.round(newProgress))
-      
+
       if (newProgress < 100) {
         requestAnimationFrame(animate)
       } else {
@@ -48,7 +48,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
         }, 300)
       }
     }
-    
+
     animate()
   }, [hasClicked, onLoadingComplete])
 
@@ -93,7 +93,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                 ease: "easeInOut",
               }}
             />
-            
+
             <motion.div
               className="absolute right-[15%] bottom-[25%] h-[500px] w-[500px] rounded-full opacity-25 blur-[100px]"
               style={{
@@ -140,7 +140,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                   stroke="#CCFF00"
                   strokeWidth="0.5"
                   initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
+                  animate={{
                     pathLength: [0, 1, 0],
                     opacity: [0, 0.3, 0]
                   }}
@@ -162,7 +162,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                   stroke="#00F0FF"
                   strokeWidth="0.5"
                   initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
+                  animate={{
                     pathLength: [0, 1, 0],
                     opacity: [0, 0.3, 0]
                   }}
@@ -248,7 +248,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
               >
                 ALCOVIA
               </motion.h1>
-              
+
               {/* Underline effect */}
               <motion.div
                 className="mx-auto mt-4 h-1 bg-gradient-to-r from-transparent via-[#CCFF00] to-transparent"
@@ -283,7 +283,8 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                   transition={{ duration: 0.3 }}
                 />
                 <span className="relative z-10 transition-colors group-hover:text-black">
-                  Click to Enter
+                  <span className="inline-block group-hover:hidden">Click to Enter</span>
+                  <span className="hidden group-hover:inline-block">Ready to Fly?</span>
                 </span>
               </motion.button>
             )}
@@ -295,7 +296,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <motion.span 
+                <motion.span
                   className="font-mono text-6xl font-bold text-[#CCFF00]"
                   animate={{
                     textShadow: [
@@ -311,7 +312,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                 >
                   {progress}%
                 </motion.span>
-                
+
                 <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/10">
                   <motion.div
                     className="h-full rounded-full bg-gradient-to-r from-[#CCFF00] to-[#00F0FF]"
@@ -319,7 +320,7 @@ export default function Loader({ onLoadingComplete }: LoaderProps) {
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.3 }}
                   />
-                  
+
                   {/* Shimmer effect on progress bar */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
