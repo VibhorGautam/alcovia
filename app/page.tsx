@@ -47,41 +47,43 @@ export default function Home() {
       <AnimatePresence>
         {isLoaded && (
           <MicroInteractions>
-            <ScrollProgress />
-            <PremiumNavbar />
+            <div className="overflow-hidden">
+              <ScrollProgress />
+              <PremiumNavbar />
 
-            {/* Fixed Background Pattern */}
-            <div className="fixed inset-0 z-[-1] bg-[#3d4a2a]">
-              <div className="absolute inset-0 opacity-[0.06]">
-                <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  {[...Array(20)].map((_, i) => (
-                    <path
-                      key={i}
-                      d={`M0,${20 + i * 3} Q25,${15 + i * 3 + Math.sin(i) * 3} 50,${20 + i * 3} T100,${20 + i * 3}`}
-                      fill="none"
-                      stroke="#F7F7F3"
-                      strokeWidth="0.1"
-                    />
-                  ))}
-                </svg>
+              {/* Fixed Background Pattern */}
+              <div className="fixed inset-0 z-[-1] bg-[#3d4a2a]">
+                <div className="absolute inset-0 opacity-[0.06]">
+                  <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    {[...Array(20)].map((_, i) => (
+                      <path
+                        key={i}
+                        d={`M0,${20 + i * 3} Q25,${15 + i * 3 + Math.sin(i) * 3} 50,${20 + i * 3} T100,${20 + i * 3}`}
+                        fill="none"
+                        stroke="#F7F7F3"
+                        strokeWidth="0.1"
+                      />
+                    ))}
+                  </svg>
+                </div>
               </div>
-            </div>
 
-            <motion.main
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
-              data-theme="graded"
-            >
-              <Hero />
-              <Manifesto />
-              <OfferingsHorizontal />
-              <ToggleCompare />
-              <StudentSnapshots />
-              <SocialFan />
-              <PartnersSection />
-              <Footer />
-            </motion.main>
+              <motion.main
+                initial={{ opacity: 0, x: "100%" }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
+                data-theme="graded"
+              >
+                <Hero />
+                <Manifesto />
+                <OfferingsHorizontal />
+                <ToggleCompare />
+                <StudentSnapshots />
+                <SocialFan />
+                <PartnersSection />
+                <Footer />
+              </motion.main>
+            </div>
           </MicroInteractions>
         )}
       </AnimatePresence>
