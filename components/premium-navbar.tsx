@@ -198,16 +198,13 @@ export default function PremiumNavbar() {
           >
             <motion.button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`flex h-12 w-12 items-center justify-center rounded-xl border transition-all duration-300 bg-transparent ${navMode === "light"
-                ? "border-black/20 bg-black/5 hover:bg-black/10 text-black"
-                : "border-black/10 bg-black/5 hover:bg-black/10 text-[#0B0B0B]"
-                }`}
+              className="flex h-12 w-12 items-center justify-center rounded-xl border border-black bg-white text-black transition-all duration-300 hover:bg-gray-50"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className="flex flex-col gap-1.5">
-                <span className={`h-0.5 w-5 rounded-full md:bg-current bg-black`} />
-                <span className={`h-0.5 w-5 rounded-full md:bg-current bg-black`} />
+                <span className="h-0.5 w-5 rounded-full bg-black" />
+                <span className="h-0.5 w-5 rounded-full bg-black" />
               </div>
             </motion.button>
           </motion.div>

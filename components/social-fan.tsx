@@ -190,7 +190,7 @@ export default function SocialFan() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B]/90 via-[#0B0B0B]/30 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-[#0B0B0B]/90 via-[#0B0B0B]/30 to-transparent" />
                   <div className="absolute bottom-0 p-4 md:p-6">
                     <span className="mb-2 inline-block rounded-full bg-[#CEFF2B] px-3 py-1.5 text-xs font-bold uppercase text-[#0B0B0B]">
                       {social.platform}

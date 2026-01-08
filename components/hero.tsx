@@ -471,35 +471,7 @@ export default function Hero() {
               transition={{ duration: 0.3 }}
             />
 
-            <motion.div
-              className="absolute bottom-4 left-1/2 -translate-x-1/2"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            >
-              <div
-                className="relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#CEFF2B]/90 shadow-lg backdrop-blur-sm"
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-              >
-                <svg className="h-6 w-6 text-[#0C0C0C]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L9 9H2l6 5-2.5 8L12 17l6.5 5L16 14l6-5h-7L12 2z" />
-                </svg>
 
-                <AnimatePresence>
-                  {showTooltip && (
-                    <motion.div
-                      className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[#0B0B0B] px-3 py-1.5 text-xs text-white shadow-lg"
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                    >
-                      Future Leader Badge ⭐
-                      <div className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-[#0B0B0B]" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </motion.div>
           </motion.div>
 
           <motion.p

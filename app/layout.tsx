@@ -59,7 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${milan.variable} cursor-none font-sans antialiased`}>
+      <body className={`${playfair.variable} ${milan.variable} cursor-none font-sans antialiased overflow-x-hidden`}>
         <SessionProvider>
           <SmoothScrollProvider>{children}</SmoothScrollProvider>
         </SessionProvider>

@@ -89,7 +89,7 @@ export default function NavMenu({ isOpen, onClose }: NavMenuProps) {
         <AnimatePresence>
             {isOpen && (
                 <motion.div
-                    className="fixed inset-0 z-50 flex h-screen w-screen bg-[#0b0d0c] text-[#F7F7F3]"
+                    className="fixed inset-0 z-50 flex h-screen w-full bg-[#0b0d0c] text-[#F7F7F3]"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"

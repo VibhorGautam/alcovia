@@ -165,7 +165,7 @@ export default function Manifesto() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[60vh] overflow-hidden bg-transparent px-6 py-4 md:min-h-screen md:px-12 md:py-24 lg:px-20"
+      className="relative min-h-[60vh] overflow-hidden bg-transparent px-6 pb-20 pt-4 md:min-h-screen md:px-12 md:py-24 lg:px-20"
       data-theme="graded"
     >
 
