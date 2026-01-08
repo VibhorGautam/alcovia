@@ -6,11 +6,21 @@ import SmoothScrollProvider from "@/components/smooth-scroll-provider"
 import { SessionProvider } from "@/context/session-context"
 import "./globals.css"
 
+import localFont from "next/font/local"
+
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  display: "swap",
+})
+
+
+
+const milan = localFont({
+  src: "../public/fonts/GCMilanHeadlineDemo-ExLtSubhe.ttf",
+  variable: "--font-milan",
   display: "swap",
 })
 
@@ -49,7 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} cursor-none font-sans antialiased`}>
+      <body className={`${playfair.variable} ${milan.variable} cursor-none font-sans antialiased`}>
         <SessionProvider>
           <SmoothScrollProvider>{children}</SmoothScrollProvider>
         </SessionProvider>

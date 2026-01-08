@@ -17,7 +17,7 @@ const socials = [
     handle: "Alcovia",
     followers: "1,190",
     image: "/images/linkedin.jpg",
-    url: "https://linkedin.com/company/alcovia",
+    url: "https://www.linkedin.com/company/alcovia-life/",
   },
   {
     platform: "YouTube",

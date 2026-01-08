@@ -174,7 +174,7 @@ export default function OfferingsHorizontal() {
   // MOBILE LAYOUT - Vertical Scroll
   if (isMobile) {
     return (
-      <section className="relative bg-transparent px-4 py-16">
+      <section className="relative bg-transparent px-4 pt-4 pb-16">
         {/* Opening Title */}
         <motion.div
           className="mb-12"

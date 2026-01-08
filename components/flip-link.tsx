@@ -28,7 +28,7 @@ export default function FlipLink({
             onClick={onClick}
             initial="initial"
             whileHover="hovered"
-            className={`relative block overflow-hidden ${className}`}
+            className={`relative block overflow-hidden whitespace-nowrap ${className}`}
             style={{
                 lineHeight: 1,
                 height: "1em",
@@ -49,7 +49,7 @@ export default function FlipLink({
                             delay: STAGGER * i,
                         }}
                         className="inline-block"
-                        style={{ color: baseColor }}
+                        style={{ color: baseColor, verticalAlign: "top" }}
                     >
                         {letter === " " ? "\u00A0" : letter}
                     </motion.span>
@@ -57,7 +57,7 @@ export default function FlipLink({
             </div>
 
             {/* Second layer - hover text (positioned absolute, initially below) */}
-            <div className="absolute inset-x-0 top-0">
+            <div className="absolute inset-0">
                 {children.split("").map((letter, i) => (
                     <motion.span
                         key={i}
@@ -71,7 +71,7 @@ export default function FlipLink({
                             delay: STAGGER * i,
                         }}
                         className="inline-block"
-                        style={{ color: hoverColor }}
+                        style={{ color: hoverColor, verticalAlign: "top" }}
                     >
                         {letter === " " ? "\u00A0" : letter}
                     </motion.span>

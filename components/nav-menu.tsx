@@ -98,11 +98,11 @@ export default function NavMenu({ isOpen, onClose }: NavMenuProps) {
                     {/* Close Button */}
                     <button
                         onClick={onClose}
-                        className="absolute right-8 top-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#F7F7F3] text-[#0b0d0c] transition-transform hover:scale-110 active:scale-95"
+                        className="absolute right-8 top-8 z-50 flex h-12 w-12 items-center justify-center rounded-[25%] bg-[#F7F7F3] text-[#0b0d0c] transition-transform hover:scale-110 active:scale-95"
                     >
                         <svg
-                            width="24"
-                            height="24"
+                            width="20"
+                            height="20"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -160,7 +160,7 @@ export default function NavMenu({ isOpen, onClose }: NavMenuProps) {
                                         onClick={onClose}
                                         className="font-[family-name:var(--font-playfair)] text-3xl font-normal uppercase leading-none tracking-tight sm:text-4xl md:text-6xl lg:text-7xl"
                                         baseColor="#F7F7F3"
-                                        hoverColor="#CEFF2B"
+                                        hoverColor="#F7F7F3"
                                     >
                                         {item.label}
                                     </FlipLink>
@@ -189,7 +189,7 @@ export default function NavMenu({ isOpen, onClose }: NavMenuProps) {
                                         href={social.href}
                                         className="text-xs font-bold uppercase tracking-widest"
                                         baseColor="#F7F7F3"
-                                        hoverColor="#CEFF2B"
+                                        hoverColor="#F7F7F3"
                                     >
                                         {social.label}
                                     </FlipLink>

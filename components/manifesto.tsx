@@ -12,73 +12,49 @@ interface TextWord {
 const manifestoWords: TextWord[] = [
   { text: "ALCOVIA", isAccent: false },
   { text: "IS", isAccent: false },
-  { text: "A", isAccent: false },
+  { text: "AN", isAccent: false },
+  { text: "ELITE", isAccent: true },
   { text: "COMMUNITY", isAccent: false },
-  { text: "OF", isAccent: false },
+  { text: "FOR", isAccent: false },
   { text: "TOP 1%", isAccent: true },
-  { text: "TEENAGERS", isAccent: false },
-  { text: "BETWEEN", isAccent: false },
-  { text: "THE", isAccent: false },
-  { text: "AGE", isAccent: false },
-  { text: "OF", isAccent: false },
-  { text: "11-16", isAccent: true },
-  { text: "YEARS.", isAccent: false },
+  { text: "TEENS", isAccent: false },
+  { text: "AGED", isAccent: false },
+  { text: "11-16.", isAccent: true },
   { text: "WITH", isAccent: false },
+  { text: "A", isAccent: false },
   { text: "3%", isAccent: true },
   { text: "SELECTION", isAccent: false },
   { text: "RATE,", isAccent: false },
+  { text: "ONLY", isAccent: false },
   { text: "THE", isAccent: false },
-  { text: "BAR", isAccent: false },
-  { text: "FOR", isAccent: false },
-  { text: "WHO", isAccent: false },
-  { text: "MAKES", isAccent: false },
-  { text: "IT", isAccent: false },
-  { text: "TO", isAccent: false },
-  { text: "OUR", isAccent: false },
-  { text: "PROGRAM", isAccent: false },
-  { text: "IS", isAccent: false },
-  { text: "HIGH.", isAccent: false },
-  { text: "FOR", isAccent: false },
-  { text: "THOSE", isAccent: false },
-  { text: "WHO", isAccent: false },
+  { text: "MOST", isAccent: false },
+  { text: "DRIVEN", isAccent: true },
   { text: "MAKE", isAccent: false },
-  { text: "IT—", isAccent: false },
-  { text: "A GLIMPSE", isAccent: true },
-  { text: "OF", isAccent: false },
-  { text: "YOUR", isAccent: false },
-  { text: "YEAR:", isAccent: false },
-  { text: "UNPRECEDENTED", isAccent: true },
-  { text: "LEARNINGS,", isAccent: false },
-  { text: "FAILING", isAccent: false },
-  { text: "REGULARLY,", isAccent: true },
+  { text: "IT.", isAccent: false },
+  { text: "EXPECT", isAccent: false },
+  { text: "BOLD", isAccent: true },
+  { text: "LEARNING,", isAccent: false },
+  { text: "REAL", isAccent: false },
+  { text: "FAILURE,", isAccent: true },
+  { text: "AND", isAccent: false },
   { text: "BUILDING", isAccent: false },
   { text: "WITH", isAccent: false },
-  { text: "FRIENDS,", isAccent: false },
-  { text: "WHILE", isAccent: false },
-  { text: "BEING", isAccent: false },
-  { text: "ON", isAccent: false },
+  { text: "FRIENDS.", isAccent: false },
+  { text: "THIS", isAccent: false },
+  { text: "IS", isAccent: false },
   { text: "A", isAccent: false },
   { text: "JOURNEY", isAccent: true },
   { text: "OF", isAccent: false },
-  { text: "SELF", isAccent: false },
-  { text: "DISCOVERY.", isAccent: false },
-  { text: "AT", isAccent: false },
-  { text: "ALCOVIA,", isAccent: false },
-  { text: "TEENS", isAccent: false },
-  { text: "GET", isAccent: false },
-  { text: "ON", isAccent: false },
-  { text: "A", isAccent: false },
-  { text: "LEGACY", isAccent: true },
+  { text: "SELF-DISCOVERY", isAccent: false },
+  { text: "AND", isAccent: false },
+  { text: "LEGACY.", isAccent: true },
+  { text: "START", isAccent: false },
   { text: "BUILDING", isAccent: false },
-  { text: "JOURNEY", isAccent: false },
-  { text: "TODAY,", isAccent: false },
-  { text: "TO", isAccent: false },
-  { text: "BUILD", isAccent: false },
   { text: "THE", isAccent: false },
   { text: "FUTURE", isAccent: true },
-  { text: "OF", isAccent: false },
-  { text: "TOMORROW.", isAccent: false },
+  { text: "NOW.", isAccent: false },
 ];
+
 
 
 export default function Manifesto() {
@@ -189,7 +165,7 @@ export default function Manifesto() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-transparent px-6 py-24 md:px-12 lg:px-20"
+      className="relative min-h-[60vh] overflow-hidden bg-transparent px-6 py-4 md:min-h-screen md:px-12 md:py-24 lg:px-20"
       data-theme="graded"
     >
 
@@ -221,7 +197,7 @@ export default function Manifesto() {
           <div className="reveal-mask absolute inset-0 z-20 bg-[#CEFF2B]" style={{ transform: "translateX(0%)" }} />
 
           <p
-            className="reveal-text font-[family-name:var(--font-playfair)] text-2xl font-normal leading-[1.15] tracking-tight sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl"
+            className="reveal-text font-[family-name:var(--font-milan)] text-2xl font-normal leading-[1.15] tracking-tight sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl"
             style={{ opacity: 0, transform: "translateY(20px)" }}
           >
             {manifestoWords.map((word, index) => (

@@ -103,7 +103,7 @@ export default function Footer() {
             className="space-y-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.1 }}
           >
             <h3 className="text-sm font-semibold uppercase tracking-wider text-[#CEFF2B]">
               Quick Links
