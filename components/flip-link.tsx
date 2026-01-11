@@ -19,7 +19,7 @@ export default function FlipLink({
     href = "#",
     className = "",
     baseColor = "inherit",
-    hoverColor = "#CEFF2B",
+    hoverColor = "#EABF36",
     onClick
 }: FlipLinkProps) {
     return (

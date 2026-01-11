@@ -1,266 +1,201 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useRef, useState } from "react"
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion"
-import Image from "next/image"
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import TextReveal from "@/components/text-reveal";
 
-const teamMembers = [
-  {
-    name: "Sahil Puri",
-    role: "Founder",
-    image: "/images/team/sahil.jpg",
-    gradient: "from-[#CCFF00] to-[#0B0B0B]",
-  },
-  {
-    name: "Lakshmi Mahajankatti",
-    role: "Career Counsellor",
-    image: "/images/team/lakshmi.jpg",
-    gradient: "from-[#0B0B0B] to-[#CCFF00]",
-  },
-  {
-    name: "Sanam Aryan",
-    role: "Academic Advisor",
-    image: "/images/team/sanam.jpg",
-    gradient: "from-[#CCFF00] to-[#0B0B0B]",
-  },
-  {
-    name: "Ansh Goyal",
-    role: "Associate",
-    image: "/images/team/ansh.jpg",
-    gradient: "from-[#0B0B0B] to-[#CCFF00]",
-  },
-  {
-    name: "Ruhani Taneja",
-    role: "Associate",
-    image: "/images/team/ruhani.jpg",
-    gradient: "from-[#CCFF00] to-[#0B0B0B]",
-  },
-  {
-    name: "Zuala K",
-    role: "Associate",
-    image: "/images/team/zuala.jpg",
-    gradient: "from-[#0B0B0B] to-[#CCFF00]",
-  },
-]
-
-function TeamCard({
-  member,
-  index,
-  isInView,
-}: {
-  member: (typeof teamMembers)[0]
-  index: number
-  isInView: boolean
-}) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [isHovered, setIsHovered] = useState(false)
-
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), {
-    stiffness: 300,
-    damping: 30,
-  })
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), {
-    stiffness: 300,
-    damping: 30,
-  })
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    mouseX.set(x)
-    mouseY.set(y)
-  }
-
-  const handleMouseLeave = () => {
-    mouseX.set(0)
-    mouseY.set(0)
-    setIsHovered(false)
-  }
-
-  return (
-    <motion.article
-      ref={cardRef}
-      className="group relative"
-      initial={{ opacity: 0, y: 60, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ delay: index * 0.12, duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX: isHovered ? rotateX : 0,
-        rotateY: isHovered ? rotateY : 0,
-        transformStyle: "preserve-3d",
-        perspective: 1000,
-      }}
-    >
-      <motion.div
-        className="relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl"
-        whileHover={{ y: -10 }}
-      >
-        <div className="relative h-80 overflow-hidden md:h-[420px]">
-          <Image
-            src={member.image || "/placeholder.svg"}
-            alt={`${member.name} - ${member.role}`}
-            fill
-            className="object-cover transition-all duration-700 group-hover:scale-105"
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <motion.div
-              className={`h-1 bg-gradient-to-r ${member.gradient} mb-4 rounded-full`}
-              initial={{ width: 0 }}
-              animate={{ width: isHovered ? "50%" : "25%" }}
-              transition={{ duration: 0.5 }}
-            />
-
-            <h3 className="text-2xl font-bold text-white">{member.name}</h3>
-            <p className="mt-1 text-sm font-semibold uppercase tracking-wider text-[#CCFF00]">
-              {member.role}
-            </p>
-          </div>
-        </div>
-
-        <motion.div
-          className="absolute inset-0 rounded-3xl pointer-events-none"
-          style={{
-            boxShadow: isHovered ? "inset 0 0 0 3px #CCFF00" : "inset 0 0 0 0px #CCFF00",
-          }}
-          transition={{ duration: 0.3 }}
-        />
-      </motion.div>
-    </motion.article>
-  )
-}
+const team = [
+  { id: "01", name: "Sahil Puri", role: "Founder", img: "/placeholder.svg?height=600&width=500" },
+  { id: "02", name: "Lakshmi Mahajankatti", role: "Career Counsellor", img: "/placeholder.svg?height=600&width=500" },
+  { id: "03", name: "Sanam Aryan", role: "Academic Advisor", img: "/placeholder.svg?height=600&width=500" },
+  { id: "04", name: "Ansh Goyal", role: "Associate", img: "/placeholder.svg?height=600&width=500" },
+  { id: "05", name: "Ruhani Taneja", role: "Associate", img: "/placeholder.svg?height=600&width=500" },
+  { id: "06", name: "Zuala K", role: "Associate", img: "/placeholder.svg?height=600&width=500" },
+];
 
 export default function MeetTheTeamGrid() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLDivElement>(null)
-  const teamRef = useRef<HTMLDivElement>(null)
-
-  const heroInView = useInView(heroRef, { once: true, margin: "-100px" })
-  const teamInView = useInView(teamRef, { once: true, margin: "-100px" })
+  const [activeMember, setActiveMember] = useState(team[0]);
 
   return (
-    <div ref={containerRef} className="bg-[#F5F5EF] text-[#0B0B0B] overflow-hidden">
-      <section ref={heroRef} className="relative min-h-[70vh] flex items-center justify-center px-6 py-24 md:px-12">
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute left-[5%] top-[15%] h-[500px] w-[500px] rounded-full opacity-30 blur-[150px]"
-            style={{ background: "radial-gradient(circle, #CCFF00 0%, transparent 70%)" }}
-            animate={{ x: [0, 40, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute right-[10%] bottom-[20%] h-[400px] w-[400px] rounded-full opacity-15 blur-[120px]"
-            style={{ background: "radial-gradient(circle, #0B0B0B 0%, transparent 70%)" }}
-            animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.2, 1] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          />
-
-          {[...Array(4)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full border border-[#0B0B0B]/10"
-              style={{
-                width: 120 + i * 60,
-                height: 120 + i * 60,
-                left: `${20 + i * 15}%`,
-                top: `${25 + (i % 2) * 25}%`,
-              }}
-              animate={{
-                y: [0, -15, 0],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 25 + i * 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+    <div className="bg-[#0D3B2E] min-h-screen">
+      {/* Section 1: Manifesto Header */}
+      <section className="px-6 py-20 md:px-12 lg:px-20 lg:py-32">
+        <div className="max-w-7xl mx-auto">
+          {/* Breadcrumb */}
+          <motion.p
+            className="text-xs uppercase tracking-[0.3em] text-[#CEFF2B] mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <motion.span
-              className="inline-block mb-6 px-4 py-2 rounded-full bg-[#CCFF00]/20 text-sm font-semibold uppercase tracking-[0.2em] text-[#0B0B0B]"
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              Our People
-            </motion.span>
-          </motion.div>
+            Who We Are
+          </motion.p>
 
-          <motion.h1
-            className="text-5xl font-black uppercase tracking-tight md:text-7xl lg:text-8xl"
-            initial={{ opacity: 0, y: 50 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
+          {/* Mission Statement */}
+          <motion.div
+            className="max-w-5xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="text-[#0B0B0B]">MEET THE</span>
-            <br />
-            <span className="relative">
-              <span className="text-[#CCFF00]" style={{ WebkitTextStroke: "2px #0B0B0B" }}>TEAM</span>
-            </span>
-          </motion.h1>
+            <TextReveal delay={0} highlightColor="#D4AF37">
+              <h1
+                className="text-3xl md:text-5xl lg:text-6xl leading-[1.15] text-[#F2F2F2] mb-8"
+                style={{ fontFamily: 'var(--font-playfair), Playfair Display, serif' }}
+              >
+                We are redefining education in India—by bringing the industry stand next to school students.
+                We believe in making alcovians learn by actually doing, learn from each other & learn from the mentors they win for life.
+              </h1>
+            </TextReveal>
 
-          <motion.p
-            className="mt-6 max-w-2xl mx-auto text-lg text-[#0B0B0B]/60 md:text-xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            The passionate mentors and leaders dedicated to helping you soar
-          </motion.p>
+            <TextReveal delay={0.3} highlightColor="#D4AF37">
+              <p className="text-lg md:text-xl text-[#F2F2F2]/70 max-w-3xl leading-relaxed">
+                We are the launchpad for the top 1% of those who dream bigger, push harder, and never stop reaching for more.
+                At Alcovia, we're committed to helping teens unlock their full potential through mentorship, peer learning, and personalized career guidance.
+              </p>
+            </TextReveal>
+          </motion.div>
         </div>
       </section>
 
-      <section ref={teamRef} className="relative px-6 py-20 md:px-12 bg-[#F5F5EF]">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member, index) => (
-              <TeamCard key={member.name} member={member} index={index} isInView={teamInView} />
-            ))}
+      {/* Section 2: Interactive Roster */}
+      <section className="px-6 pb-20 md:px-12 lg:px-20 lg:pb-32">
+        <div className="max-w-7xl mx-auto">
+          {/* Desktop Layout */}
+          <div className="hidden lg:flex gap-16 xl:gap-24">
+            {/* LEFT: The Image Stage (Sticky) */}
+            <div className="w-1/2 h-[75vh] sticky top-24 rounded-3xl overflow-hidden relative bg-[#0C0C0C]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeMember.name}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src={activeMember.img}
+                    alt={activeMember.name}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D3B2E]/80 via-transparent to-transparent" />
+
+                  {/* Name Badge on Image */}
+                  <motion.div
+                    className="absolute bottom-8 left-8 right-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                  >
+                    <span className="text-xs uppercase tracking-[0.2em] text-[#CEFF2B] mb-2 block">
+                      {activeMember.id}
+                    </span>
+                    <h3
+                      className="text-3xl xl:text-4xl text-[#F2F2F2] font-medium"
+                      style={{ fontFamily: 'var(--font-playfair), Playfair Display, serif' }}
+                    >
+                      {activeMember.name}
+                    </h3>
+                    <p className="text-sm uppercase tracking-widest text-[#F2F2F2]/60 mt-2">
+                      {activeMember.role}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* RIGHT: The List */}
+            <div className="w-1/2 flex flex-col justify-center py-12">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#F2F2F2]/40 mb-8">
+                The Team
+              </p>
+              {team.map((member) => (
+                <div
+                  key={member.name}
+                  onMouseEnter={() => setActiveMember(member)}
+                  className="group cursor-pointer py-6 border-b border-[#F2F2F2]/10 relative overflow-hidden transition-all"
+                >
+                  {/* The Neon Highlight Bar */}
+                  <span className="absolute inset-0 bg-[#CEFF2B] scale-x-0 group-hover:scale-x-100 transition-transform origin-left z-0 duration-300 ease-out" />
+
+                  <div className="relative z-10 flex justify-between items-center px-4">
+                    {/* Number + Name */}
+                    <div className="flex items-baseline gap-4">
+                      <span className="text-sm font-mono text-[#F2F2F2]/30 group-hover:text-[#0D3B2E]/60 transition-colors">
+                        {member.id}
+                      </span>
+                      <h3
+                        className="text-2xl xl:text-4xl text-[#F2F2F2] group-hover:text-[#0D3B2E] font-medium transition-colors duration-300"
+                        style={{ fontFamily: 'var(--font-playfair), Playfair Display, serif' }}
+                      >
+                        {member.name}
+                      </h3>
+                    </div>
+                    {/* Role */}
+                    <span className="text-xs uppercase tracking-widest text-[#F2F2F2]/40 group-hover:text-[#0D3B2E]/80 transition-colors duration-300">
+                      {member.role}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <motion.div
-            className="mt-20 text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={teamInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 1, duration: 0.6 }}
-          >
-            <p className="mb-6 text-lg text-[#0B0B0B]/60">Want to be part of our mission?</p>
-            <motion.button
-              className="group relative overflow-hidden rounded-full bg-[#0B0B0B] px-8 py-4 font-semibold uppercase tracking-wide text-white transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+          {/* Mobile Layout (Stacked) */}
+          <div className="lg:hidden space-y-8">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#F2F2F2]/40 mb-4">
+              The Team
+            </p>
+            {team.map((member, index) => (
               <motion.div
-                className="absolute inset-0 bg-[#CCFF00]"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: 0 }}
-                transition={{ duration: 0.3 }}
-              />
-              <span className="relative z-10 transition-colors group-hover:text-[#0B0B0B]">
-                Join Our Team
-              </span>
-            </motion.button>
-          </motion.div>
+                key={member.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                {/* Image */}
+                <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden mb-4 bg-[#0C0C0C]">
+                  <Image
+                    src={member.img}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D3B2E]/90 via-[#0D3B2E]/20 to-transparent" />
+
+                  {/* Number Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className="text-xs font-mono px-2 py-1 bg-[#CEFF2B] text-[#0D3B2E] rounded">
+                      {member.id}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="px-2">
+                  <h3
+                    className="text-2xl text-[#F2F2F2] font-medium mb-1"
+                    style={{ fontFamily: 'var(--font-playfair), Playfair Display, serif' }}
+                  >
+                    {member.name}
+                  </h3>
+                  <p className="text-sm uppercase tracking-widest text-[#CEFF2B]">
+                    {member.role}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
-  )
+  );
 }

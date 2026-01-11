@@ -312,7 +312,7 @@ export default function CustomCursor() {
         }}
       >
         {cursorState === "hover-link" && (
-          <div className="h-1 w-4 rounded-full bg-[#CEFF2B]" style={{ transform: "translateY(8px)" }} />
+          <div className="h-1 w-4 rounded-full bg-[#EABF36]" style={{ transform: "translateY(8px)" }} />
         )}
         {cursorState === "drag" && (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-dark/60">

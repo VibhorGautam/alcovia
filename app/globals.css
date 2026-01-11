@@ -6,7 +6,7 @@
 :root {
   --bg-light: #f7f7f3;
   --bg-dark: #0b0d0c;
-  --accent: #ceff2b;
+  --accent: #EABF36;
   --text-dark: #0c0c0c;
   --muted: #8a8a87;
 
@@ -133,9 +133,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     scroll-behavior: smooth;
   }
@@ -153,8 +155,15 @@
   body {
     cursor: none;
   }
+
   body * {
     cursor: none !important;
+  }
+
+  /* Exception for menu page */
+  [data-show-cursor],
+  [data-show-cursor] * {
+    cursor: auto !important;
   }
 }
 
@@ -168,6 +177,7 @@ section {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -191,6 +201,7 @@ section {
 }
 
 @media (hover: none) {
+
   a,
   [data-cursor] {
     letter-spacing: inherit !important;
@@ -251,15 +262,48 @@ section {
 }
 
 @keyframes micro-bounce {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(0.95);
   }
 }
 
-.click-bounce:active {
-  animation: micro-bounce 0.2s;
+
+/* Custom Utilities for Outside School Section */
+
+/* 1. The "Raw" Noise Overlay */
+.bg-noise {
+  position: relative;
+}
+
+.bg-noise::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  /* Sits on top of color */
+}
+
+/* 2. The "Blueprint" Grid Pattern */
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* 3. Text Stroke Utility (The Hollow Text) */
+.stroke-text-mustard {
+  -webkit-text-stroke: 2px #EABF36;
+  /* Mustard */
+  color: transparent;
 }

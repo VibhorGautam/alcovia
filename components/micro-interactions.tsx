@@ -42,7 +42,7 @@ export function useMicroInteractions() {
         left: 50%;
         width: 0;
         height: 2px;
-        background: #CEFF2B;
+        background: #EABF36;
         transition: width 220ms cubic-bezier(.22,1,.36,1), left 220ms cubic-bezier(.22,1,.36,1);
       `
       el.style.position = "relative"
@@ -84,7 +84,7 @@ export function useMicroInteractions() {
       fillOverlay.style.cssText = `
         position: absolute;
         inset: 0;
-        background: #CEFF2B;
+        background: #EABF36;
         transform: translateX(-100%);
         transition: transform 300ms cubic-bezier(.22,1,.36,1);
         z-index: -1;

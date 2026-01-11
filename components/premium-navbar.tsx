@@ -24,8 +24,6 @@ interface NavItem {
 }
 
 const navLinks: NavItem[] = [
-  { label: "PROGRAMS", href: "/programs", hasDropdown: false },
-  { label: "ABOUT", href: "/about", hasDropdown: false },
   { label: "TEAM", href: "/meet-the-team", hasDropdown: false },
 ]
 
@@ -95,7 +93,7 @@ export default function PremiumNavbar() {
     }, 150)
   }, [])
 
-  const navHeight = scrolled ? "h-[65px]" : "h-[75px]"
+  const navHeight = "h-[65px]"
 
   return (
     <>
@@ -105,24 +103,20 @@ export default function PremiumNavbar() {
           background: navMode === "light"
             ? "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 100%)"
             : "linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, transparent 100%)",
-          opacity: scrolled ? 0.8 : 0.5,
+          opacity: 0.8,
           transition: "opacity 0.3s ease-out"
         }}
       />
 
       <motion.nav
         ref={navRef}
-        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${navHeight} ${!scrolled && "top-6 mx-auto max-w-7xl rounded-full"}`}
+        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${navHeight}`}
         style={{
-          background: scrolled
-            ? "transparent"
-            : navMode === "light" ? "rgba(10, 10, 10, 0.35)" : "rgba(247, 247, 243, 0.35)",
-          backdropFilter: scrolled ? "none" : "blur(12px)",
-          WebkitBackdropFilter: scrolled ? "none" : "blur(12px)",
-          borderBottom: scrolled
-            ? "none"
-            : navMode === "light" ? "1px solid rgba(255, 255, 255, 0.06)" : "1px solid rgba(0, 0, 0, 0.06)",
-          boxShadow: scrolled ? "none" : "0 2px 8px rgba(0, 0, 0, 0.1)",
+          background: "transparent",
+          backdropFilter: "none",
+          WebkitBackdropFilter: "none",
+          borderBottom: "none",
+          boxShadow: "none",
         }}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -143,11 +137,11 @@ export default function PremiumNavbar() {
                 transition={{ duration: 0.2 }}
               >
                 <Image
-                  src={scrolled ? "/images/alcovia-logo-symbol.png" : "/images/alcovia-logo.png"}
+                  src={"/images/alcovia-logo-symbol.png"}
                   alt="ALCOVIA"
-                  width={scrolled ? 150 : 280}
-                  height={scrolled ? 150 : 120}
-                  className={`transition-all duration-300 ${scrolled ? "h-[220px] w-[120px] -mt-6 object-contain object-bottom pt-6" : "h-[160px] w-auto"}`}
+                  width={scrolled ? 220 : 150}
+                  height={scrolled ? 220 : 150}
+                  className={`transition-all duration-300 h-[220px] w-[120px] -mt-6 object-contain object-bottom pt-6`}
                   style={{
                     filter: navMode === "light" ? "brightness(1.2) invert(0)" : "brightness(1) invert(0)"
                   }}
@@ -157,47 +151,39 @@ export default function PremiumNavbar() {
             </Link>
           </motion.div>
 
-          <AnimatePresence>
-            {!scrolled && (
-              <motion.nav
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                className="hidden items-center gap-2 lg:flex order-2"
-              >
-                {navLinks.map((link) => (
-                  <div
-                    key={link.label}
-                    className="relative"
-                    onMouseEnter={() => link.hasDropdown && handleDropdownEnter(link.label)}
-                    onMouseLeave={handleDropdownLeave}
-                  >
-                    <NavLink href={link.href} mode={navMode}>
-                      {link.label}
-                    </NavLink>
-
-                    <AnimatePresence>
-                      {link.hasDropdown && activeDropdown === link.label && link.dropdownItems && (
-                        <DropdownMenu
-                          items={link.dropdownItems}
-                          onMouseEnter={() => handleDropdownEnter(link.label)}
-                          onMouseLeave={handleDropdownLeave}
-                        />
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-              </motion.nav>
-            )}
-          </AnimatePresence>
-
           <motion.div
             layout
-            className={`flex items-center gap-4 order-3 ${scrolled ? "pt-6" : ""}`}
+            className={`flex items-center gap-3 order-3 pt-6`}
           >
+            {/* Apply for Cohort 2026 Button - Appears on scroll */}
+            <AnimatePresence>
+              {scrolled && (
+                <motion.a
+                  href="/contact"
+                  initial={{ opacity: 0, scale: 0.8, x: 20 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, x: 20 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  className="hidden md:flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: '#EABF36',
+                    color: '#002C45',
+                    boxShadow: '0 4px 15px rgba(234, 191, 54, 0.3)',
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: '0 6px 20px rgba(234, 191, 54, 0.4)',
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span>Apply for Cohort 2026</span>
+                </motion.a>
+              )}
+            </AnimatePresence>
+
+            {/* Menu Button - Opens overlay */}
             <motion.button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setMobileMenuOpen(true)}
               className="flex h-12 w-12 items-center justify-center rounded-xl border border-black bg-white text-black transition-all duration-300 hover:bg-gray-50"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -237,7 +223,7 @@ function NavLink({
       >
         {children}
       </span>
-      <span className="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-[#CEFF2B] transition-all duration-300 group-hover:w-4/5" />
+      <span className="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 bg-[#EABF36] transition-all duration-300 group-hover:w-4/5" />
     </Link>
   )
 }
@@ -276,7 +262,7 @@ function DropdownMenu({
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
-          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(206, 255, 43, 0.05)",
+          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(234, 191, 54, 0.05)",
         }}
       >
         <div className="p-4">
@@ -295,7 +281,7 @@ function DropdownMenu({
                       href={item.href}
                       className="group block rounded-xl px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5"
                     >
-                      <span className="text-white/90 transition-colors group-hover:text-[#CEFF2B]">
+                      <span className="text-white/90 transition-colors group-hover:text-[#EABF36]">
                         {item.label}
                       </span>
                     </Link>

@@ -2,7 +2,9 @@
 
 import { useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
+import TextReveal from "./text-reveal"
 
 const sections = [
   {
@@ -10,7 +12,7 @@ const sections = [
     topText: "AT",
     bottomText: "SCHOOL",
     description:
-      "Empowering students to achieve academic excellence through innovative learning methodologies.",
+      "Empowering academic excellence through innovative learning methodologies.",
     image: "/images/atschool.png",
   },
   {
@@ -49,7 +51,7 @@ export default function ToggleCompare() {
     >
       {/* LEFT IMAGE */}
       <motion.div
-        className="absolute bottom-0 left-0 top-0 hidden w-[22%] lg:block"
+        className="absolute bottom-0 left-0 top-0 hidden w-[28%] lg:block"
         style={{ x: leftImageX, opacity: leftOpacity }}
       >
         <div className="relative h-full w-full">
@@ -59,13 +61,13 @@ export default function ToggleCompare() {
             fill
             className="object-cover object-right"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#3d4a2a]" />
+
         </div>
       </motion.div>
 
       {/* RIGHT IMAGE */}
       <motion.div
-        className="absolute bottom-0 right-0 top-0 hidden w-[22%] lg:block"
+        className="absolute bottom-0 right-0 top-0 hidden w-[28%] lg:block"
         style={{ x: rightImageX, opacity: rightOpacity }}
       >
         <div className="relative h-full w-full">
@@ -75,7 +77,7 @@ export default function ToggleCompare() {
             fill
             className="object-cover object-left"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#3d4a2a]" />
+
         </div>
       </motion.div>
 
@@ -86,16 +88,18 @@ export default function ToggleCompare() {
           className="mb-12 text-center md:mb-24"
           style={{ y: headerY, opacity: headerOpacity }}
         >
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-bold text-[#F7F7F3] md:text-6xl lg:text-7xl">
-            Our <span className="text-[#CEFF2B]">Impact</span>
-          </h2>
+          <TextReveal delay={0} highlightColor="#EABF36">
+            <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-bold text-[#F7F7F3] md:text-6xl lg:text-7xl">
+              Our <span className="text-[#EABF36]">Impact</span>
+            </h2>
+          </TextReveal>
         </motion.div>
 
         {/* 🔥 MOBILE: SIDE BY SIDE | DESKTOP: ROW */}
-        <div className="grid grid-cols-2 gap-8 md:flex md:items-center md:justify-center md:gap-20 lg:gap-32">
+        <div className="grid grid-cols-2 gap-4 md:flex md:items-start md:justify-center md:gap-12 lg:gap-16">
           {/* AT SCHOOL */}
           <motion.div
-            className="group cursor-pointer text-center"
+            className="cursor-pointer text-right"
             style={{ x: leftTextX, opacity: leftOpacity }}
           >
             <div className="relative mb-4">
@@ -109,22 +113,22 @@ export default function ToggleCompare() {
               </div>
             </div>
 
-            <p className="mx-auto max-w-[160px] text-xs leading-relaxed text-[#F7F7F3]/60 md:max-w-[200px] md:text-sm">
+            <p className="ml-auto max-w-[160px] text-xs leading-relaxed text-[#F7F7F3]/60 md:max-w-[200px] md:text-sm">
               {sections[0].description}
             </p>
 
-            <motion.button
-              className="mx-auto mt-5 flex h-11 w-11 items-center justify-center rounded-xl bg-[#CEFF2B] text-[#0C0C0C]"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              →
-            </motion.button>
+            <Link href="/at-school">
+              <button
+                className="ml-auto mt-5 flex h-11 w-11 items-center justify-center rounded-xl bg-[#EABF36] text-[#0C0C0C] hover:scale-110 transition-transform"
+              >
+                →
+              </button>
+            </Link>
           </motion.div>
 
           {/* OUTSIDE SCHOOL */}
           <motion.div
-            className="group cursor-pointer text-center"
+            className="cursor-pointer text-left"
             style={{ x: rightTextX, opacity: rightOpacity }}
           >
             <div className="relative mb-4">
@@ -138,17 +142,17 @@ export default function ToggleCompare() {
               </div>
             </div>
 
-            <p className="mx-auto max-w-[160px] text-xs leading-relaxed text-[#F7F7F3]/60 md:max-w-[200px] md:text-sm">
+            <p className="mr-auto max-w-[160px] text-xs leading-relaxed text-[#F7F7F3]/60 md:max-w-[200px] md:text-sm">
               {sections[1].description}
             </p>
 
-            <motion.button
-              className="mx-auto mt-5 flex h-11 w-11 items-center justify-center rounded-xl bg-[#CEFF2B] text-[#0C0C0C]"
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              ←
-            </motion.button>
+            <Link href="/outside-school">
+              <button
+                className="mr-auto mt-5 flex h-11 w-11 items-center justify-center rounded-xl bg-[#EABF36] text-[#0C0C0C] hover:scale-110 transition-transform"
+              >
+                ←
+              </button>
+            </Link>
           </motion.div>
         </div>
       </div>

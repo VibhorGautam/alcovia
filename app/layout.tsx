@@ -1,9 +1,10 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google"
+import { Geist, Geist_Mono, Playfair_Display, Oswald, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import SmoothScrollProvider from "@/components/smooth-scroll-provider"
 import { SessionProvider } from "@/context/session-context"
+import PremiumNavbar from "@/components/premium-navbar"
 import "./globals.css"
 
 import localFont from "next/font/local"
@@ -16,7 +17,17 @@ const playfair = Playfair_Display({
   display: "swap",
 })
 
+const oswald = Oswald({
+  subsets: ["latin"],
+  variable: "--font-monument",
+  display: "swap",
+})
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-satoshi",
+  display: "swap",
+})
 
 const milan = localFont({
   src: "../public/fonts/GCMilanHeadlineDemo-ExLtSubhe.ttf",
@@ -25,21 +36,28 @@ const milan = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Alcovia Reimagined",
+  title: "Alcovia life",
   description:
     "Join Alcovia's journey to become a future leader shaping the world of tomorrow. Premium mentorship, career discovery, and community for Indian teens.",
   keywords: ["Indian teens", "mentorship", "education", "career discovery", "leadership", "student development"],
   authors: [{ name: "Alcovia" }],
+  icons: {
+    icon: "/images/alcovia-logo-navbar.png",
+    shortcut: "/images/alcovia-logo-navbar.png",
+    apple: "/images/alcovia-logo-navbar.png",
+  },
   openGraph: {
     title: "ALCOVIA | Ready to Fly?",
     description: "Empowering Indian teens to become tomorrow's leaders",
     type: "website",
     locale: "en_IN",
+    images: ["/images/alcovia-logo-navbar.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "ALCOVIA | Ready to Fly?",
     description: "Empowering Indian teens to become tomorrow's leaders",
+    images: ["/images/alcovia-logo-navbar.png"],
   },
   generator: 'v0.app'
 }
@@ -59,12 +77,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${milan.variable} cursor-none font-sans antialiased overflow-x-hidden`}>
+      <body className={`${playfair.variable} ${milan.variable} ${oswald.variable} ${inter.variable} cursor-none font-sans antialiased overflow-x-hidden`}>
         <SessionProvider>
-          <SmoothScrollProvider>{children}</SmoothScrollProvider>
+          <SmoothScrollProvider>
+            <PremiumNavbar />
+            {children}
+          </SmoothScrollProvider>
         </SessionProvider>
         <Analytics />
       </body>
     </html>
   )
 }
+

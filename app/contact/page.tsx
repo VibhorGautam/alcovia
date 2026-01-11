@@ -59,7 +59,7 @@ export default function ContactPage() {
                 >
                     <div className="text-center mb-12">
                         <h1 className="font-[family-name:var(--font-playfair)] text-5xl font-bold md:text-6xl mb-4">
-                            Join the <span className="text-[#CEFF2B]">Community</span>
+                            Join the <span className="text-[#EABF36]">Community</span>
                         </h1>
                         <p className="text-[#F7F7F3]/70">
                             Express your interest. Let's build the future together.
@@ -69,7 +69,7 @@ export default function ContactPage() {
                     <form onSubmit={handleSubmit} className="space-y-6 bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label htmlFor="parentName" className="text-xs uppercase tracking-widest text-[#CEFF2B]">Parent Name</label>
+                                <label htmlFor="parentName" className="text-xs uppercase tracking-widest text-[#EABF36]">Parent Name</label>
                                 <input
                                     type="text"
                                     id="parentName"
@@ -77,12 +77,12 @@ export default function ContactPage() {
                                     value={formState.parentName}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#CEFF2B] transition-colors"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#EABF36] transition-colors"
                                     placeholder="John Doe"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="studentName" className="text-xs uppercase tracking-widest text-[#CEFF2B]">Student Name</label>
+                                <label htmlFor="studentName" className="text-xs uppercase tracking-widest text-[#EABF36]">Student Name</label>
                                 <input
                                     type="text"
                                     id="studentName"
@@ -90,7 +90,7 @@ export default function ContactPage() {
                                     value={formState.studentName}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#CEFF2B] transition-colors"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#EABF36] transition-colors"
                                     placeholder="Jane Doe"
                                 />
                             </div>
@@ -98,7 +98,7 @@ export default function ContactPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <label htmlFor="email" className="text-xs uppercase tracking-widest text-[#CEFF2B]">Email Address</label>
+                                <label htmlFor="email" className="text-xs uppercase tracking-widest text-[#EABF36]">Email Address</label>
                                 <input
                                     type="email"
                                     id="email"
@@ -106,12 +106,12 @@ export default function ContactPage() {
                                     value={formState.email}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#CEFF2B] transition-colors"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#EABF36] transition-colors"
                                     placeholder="john@example.com"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="phone" className="text-xs uppercase tracking-widest text-[#CEFF2B]">Phone Number</label>
+                                <label htmlFor="phone" className="text-xs uppercase tracking-widest text-[#EABF36]">Phone Number</label>
                                 <input
                                     type="tel"
                                     id="phone"
@@ -119,21 +119,21 @@ export default function ContactPage() {
                                     value={formState.phone}
                                     onChange={handleChange}
                                     required
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#CEFF2B] transition-colors"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#EABF36] transition-colors"
                                     placeholder="+1 (555) 000-0000"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <label htmlFor="grade" className="text-xs uppercase tracking-widest text-[#CEFF2B]">Current Grade</label>
+                            <label htmlFor="grade" className="text-xs uppercase tracking-widest text-[#EABF36]">Current Grade</label>
                             <select
                                 id="grade"
                                 name="grade"
                                 value={formState.grade}
                                 onChange={handleChange}
                                 required
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#CEFF2B] transition-colors appearance-none"
+                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#EABF36] transition-colors appearance-none"
                             >
                                 <option value="" disabled className="bg-[#3d4a2a]">Select Grade</option>
                                 <option value="8" className="bg-[#3d4a2a]">Grade 8</option>
@@ -145,14 +145,14 @@ export default function ContactPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <label htmlFor="interests" className="text-xs uppercase tracking-widest text-[#CEFF2B]">Interests & Goals</label>
+                            <label htmlFor="interests" className="text-xs uppercase tracking-widest text-[#EABF36]">Interests & Goals</label>
                             <textarea
                                 id="interests"
                                 name="interests"
                                 value={formState.interests}
                                 onChange={handleChange}
                                 rows={4}
-                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#CEFF2B] transition-colors resize-none"
+                                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-[#F7F7F3] focus:outline-none focus:border-[#EABF36] transition-colors resize-none"
                                 placeholder="Tell us about the student's interests and what you hope to achieve..."
                             />
                         </div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
                             type="submit"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="w-full bg-[#CEFF2B] text-[#0B0B0B] font-bold uppercase tracking-widest py-4 rounded-xl shadow-[0_0_20px_rgba(206,255,43,0.3)] hover:shadow-[0_0_30px_rgba(206,255,43,0.5)] transition-all"
+                            className="w-full bg-[#EABF36] text-[#0B0B0B] font-bold uppercase tracking-widest py-4 rounded-xl shadow-[0_0_20px_rgba(206,255,43,0.3)] hover:shadow-[0_0_30px_rgba(206,255,43,0.5)] transition-all"
                         >
                             Submit Interest
                         </motion.button>

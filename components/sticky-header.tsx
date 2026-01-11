@@ -45,7 +45,7 @@ export default function StickyHeader() {
                 <Link
                   key={item}
                   href={`/${item.toLowerCase()}`}
-                  className="text-sm font-medium uppercase tracking-wide text-[#0B0B0B]/70 transition-colors hover:text-[#CEFF2B]"
+                  className="text-sm font-medium uppercase tracking-wide text-[#0B0B0B]/70 transition-colors hover:text-[#EABF36]"
                 >
                   {item}
                 </Link>
@@ -53,7 +53,7 @@ export default function StickyHeader() {
             </nav>
 
             <motion.button
-              className="rounded-full bg-[#CEFF2B] px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-[#0B0B0B]"
+              className="rounded-full bg-[#EABF36] px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-[#0B0B0B]"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >

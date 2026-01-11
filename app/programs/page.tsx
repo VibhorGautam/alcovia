@@ -2,7 +2,6 @@
 
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import PremiumNavbar from "@/components/premium-navbar"
 import Footer from "@/components/footer"
 import Image from "next/image"
 
@@ -42,7 +41,6 @@ export default function ProgramsPage() {
 
     return (
         <div className="relative min-h-screen bg-[#3d4a2a] text-[#F7F7F3]">
-            <PremiumNavbar />
 
             {/* Fixed Background Pattern */}
             <div className="fixed inset-0 z-0 pointer-events-none">
@@ -69,7 +67,7 @@ export default function ProgramsPage() {
                     className="mb-20 text-center"
                 >
                     <h1 className="font-[family-name:var(--font-playfair)] text-5xl font-bold md:text-7xl">
-                        Our <span className="text-[#CEFF2B]">Programs</span>
+                        Our <span className="text-[#EABF36]">Programs</span>
                     </h1>
                     <p className="mt-6 text-lg text-[#F7F7F3]/70 max-w-2xl mx-auto">
                         Designed to empower the next generation of leaders through immersive experiences and expert guidance.
@@ -84,7 +82,7 @@ export default function ProgramsPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1, duration: 0.6 }}
                             viewport={{ once: true }}
-                            className="group relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 hover:border-[#CEFF2B]/50 transition-colors"
+                            className="group relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 hover:border-[#EABF36]/50 transition-colors"
                         >
                             <div className="relative h-64 w-full overflow-hidden">
                                 <Image
@@ -96,7 +94,7 @@ export default function ProgramsPage() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0C] to-transparent opacity-80" />
                             </div>
                             <div className="p-8 relative z-10 -mt-12">
-                                <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#F7F7F3] mb-3 group-hover:text-[#CEFF2B] transition-colors">
+                                <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#F7F7F3] mb-3 group-hover:text-[#EABF36] transition-colors">
                                     {program.title}
                                 </h3>
                                 <p className="text-[#F7F7F3]/70 leading-relaxed">

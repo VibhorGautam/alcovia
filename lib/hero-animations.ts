@@ -11,7 +11,7 @@ export const isMobile = (): boolean => {
 }
 
 export const COLORS = {
-    accent: "#CEFF2B",
+    accent: "#EABF36",
     dark: "#0B0B0B",
     light: "#F7F7F3",
 }
@@ -361,7 +361,7 @@ export function createCTANeonSweep(button: HTMLElement) {
     sweep.className =
         "absolute inset-0 pointer-events-none overflow-hidden rounded-full"
     sweep.innerHTML = `
-    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[#CEFF2B]/30 to-transparent"
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-[#EABF36]/30 to-transparent"
          style="transform: translateX(-100%); width: 200%;"></div>
   `
     button.style.position = "relative"
@@ -659,7 +659,7 @@ export function createFloatingDoodles(options: DoodleOptions) {
 
     starPositions.forEach((pos, i) => {
         const star = document.createElement("div")
-        star.className = "absolute pointer-events-none text-[#CEFF2B]/20"
+        star.className = "absolute pointer-events-none text-[#EABF36]/20"
         star.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9 9H2l6 5-2.5 8L12 17l6.5 5L16 14l6-5h-7L12 2z"/></svg>`
         if (pos.right) star.style.right = pos.right
         star.style.top = pos.top

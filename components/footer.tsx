@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import FlipLink from "@/components/flip-link"
+import TextReveal from "@/components/text-reveal"
 
 export default function Footer() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -32,21 +33,18 @@ export default function Footer() {
       <div className="absolute inset-0 overflow-hidden">
         <svg className="absolute inset-0 h-full w-full opacity-[0.04]" preserveAspectRatio="none">
           {[...Array(15)].map((_, i) => (
-            <motion.path
+            <path
               key={i}
               d={`M0,${20 + i * 6} Q25,${15 + i * 6 + Math.sin(i) * 5} 50,${20 + i * 6} T100,${20 + i * 6}`}
               fill="none"
-              stroke="#CEFF2B"
+              stroke="#EABF36"
               strokeWidth="0.3"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
-              transition={{ delay: i * 0.1, duration: 3 }}
             />
           ))}
         </svg>
 
         <motion.div
-          className="absolute left-1/4 top-1/4 h-[400px] w-[400px] rounded-full bg-[#CEFF2B]/5 blur-[100px]"
+          className="absolute left-1/4 top-1/4 h-[400px] w-[400px] rounded-full bg-[#EABF36]/5 blur-[100px]"
           animate={{
             x: [0, 30, 0],
             y: [0, -20, 0],
@@ -55,7 +53,7 @@ export default function Footer() {
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 h-[300px] w-[300px] rounded-full bg-[#CEFF2B]/3 blur-[80px]"
+          className="absolute bottom-1/4 right-1/4 h-[300px] w-[300px] rounded-full bg-[#EABF36]/3 blur-[80px]"
           animate={{
             x: [0, -25, 0],
             y: [0, 25, 0],
@@ -67,47 +65,41 @@ export default function Footer() {
 
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col">
         <div className="grid grid-cols-1 gap-8 border-b border-white/10 pb-12 md:grid-cols-2 lg:grid-cols-4">
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2 }}
-          >
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#CEFF2B]">
-              Contact Us
-            </h3>
+          <div className="space-y-4">
+            <TextReveal delay={0} highlightColor="#EABF36">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-[#EABF36]">
+                Contact Us
+              </h3>
+            </TextReveal>
             <div className="space-y-3 text-sm text-white/60">
               <a
                 href="https://www.google.com/maps/place/WeWork+Two+Horizon+Centre+-+Coworking+%26+Office+Space+in+Golf+Course+Road,+Gurugram/@28.4511202,77.0965147,17z/data=!3m2!4b1!5s0x390d18e94e3f0557:0x15caf654c98d779a!4m6!3m5!1s0x390d196a9219452f:0x2b7db4e11e0c29d1!8m2!3d28.4511202!4d77.0965147!16s%2Fg%2F11ffw7b31g?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
-                className="block transition-colors hover:text-[#CEFF2B]"
+                className="block transition-colors hover:text-[#EABF36]"
               >
                 WeWork, Two Horizon Centre,<br />
                 DLF Phase 5, Gurugram
               </a>
               <a
                 href="tel:+919070606050"
-                className="block transition-colors hover:text-[#CEFF2B]"
+                className="block transition-colors hover:text-[#EABF36]"
               >
                 +91 9070606050
               </a>
               <a
                 href="mailto:info@alcovia.life"
-                className="block transition-colors hover:text-[#CEFF2B]"
+                className="block transition-colors hover:text-[#EABF36]"
               >
                 info@alcovia.life
               </a>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
-          >
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#CEFF2B]">
-              Quick Links
-            </h3>
+          <div className="space-y-4">
+            <TextReveal delay={0.1} highlightColor="#EABF36">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-[#EABF36]">
+                Quick Links
+              </h3>
+            </TextReveal>
             <nav className="flex flex-col space-y-2">
               {footerLinks.map((link) => (
                 <FlipLink
@@ -115,23 +107,20 @@ export default function Footer() {
                   href={link.href}
                   className="w-fit text-sm"
                   baseColor="rgba(255,255,255,0.6)"
-                  hoverColor="#CEFF2B"
+                  hoverColor="#EABF36"
                 >
                   {link.name}
                 </FlipLink>
               ))}
             </nav>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.4 }}
-          >
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#CEFF2B]">
-              Legal
-            </h3>
+          <div className="space-y-4">
+            <TextReveal delay={0.2} highlightColor="#EABF36">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-[#EABF36]">
+                Legal
+              </h3>
+            </TextReveal>
             <nav className="flex flex-col space-y-2">
               {[
                 { name: "Terms & Conditions", href: "/Legal/terms-and-conditions" },
@@ -142,23 +131,20 @@ export default function Footer() {
                   href={link.href}
                   className="w-fit text-sm"
                   baseColor="rgba(255,255,255,0.6)"
-                  hoverColor="#CEFF2B"
+                  hoverColor="#EABF36"
                 >
                   {link.name}
                 </FlipLink>
               ))}
             </nav>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5 }}
-          >
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#CEFF2B]">
-              Follow Us
-            </h3>
+          <div className="space-y-4">
+            <TextReveal delay={0.3} highlightColor="#EABF36">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-[#EABF36]">
+                Follow Us
+              </h3>
+            </TextReveal>
             <div className="flex gap-3">
               {[
                 { name: "Instagram", icon: "M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" },
@@ -168,11 +154,11 @@ export default function Footer() {
                 <a
                   key={social.name}
                   href="#"
-                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 transition-all hover:border-[#CEFF2B] hover:bg-[#CEFF2B]/10"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 transition-all hover:border-[#EABF36] hover:bg-[#EABF36]/10"
                   aria-label={social.name}
                 >
                   <svg
-                    className="h-4 w-4 text-white/60 transition-colors group-hover:text-[#CEFF2B]"
+                    className="h-4 w-4 text-white/60 transition-colors group-hover:text-[#EABF36]"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -181,62 +167,35 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          className="flex flex-col items-center justify-between gap-4 py-6 text-center md:flex-row md:text-left"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-        >
+        <div className="flex flex-col items-center justify-between gap-4 py-6 text-center md:flex-row md:text-left">
           <p className="text-xs text-white/40 sm:text-sm">
             Alcovia © 2026. Ahead of the Curve.
           </p>
           <p className="text-xs text-white/40">
             All rights reserved.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           className="relative -mx-4 mt-8 overflow-hidden sm:-mx-6 md:-mx-12"
-          style={{ y: textY }}
         >
           <div className="relative overflow-hidden px-2">
-            <motion.div
-              className="absolute inset-0 z-20 bg-[#000000]"
-              initial={{ x: "0%" }}
-              animate={isInView ? { x: "105%" } : {}}
-              transition={{ delay: 0.3, duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
-            />
-
-            <motion.h2
-              className="select-none text-center font-black uppercase leading-[0.85] tracking-tighter"
+            <h2
+              className="select-none text-center font-black uppercase leading-[0.75] tracking-tighter opacity-90"
               style={{
-                WebkitTextStroke: "clamp(1px, 0.15vw, 4px) #CEFF2B",
+                WebkitTextStroke: "clamp(1px, 0.15vw, 4px) #EABF36",
                 WebkitTextFillColor: "transparent",
-                filter: "drop-shadow(0 0 40px rgba(206,255,43,0.3))",
+                filter: "drop-shadow(0 0 40px rgba(234,191,54,0.3))",
                 fontSize: "clamp(3rem, 18vw, 20vw)",
               }}
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 0.9 } : {}}
-              transition={{ delay: 0.5, duration: 1.2 }}
             >
-              <motion.span
-                animate={{
-                  filter: [
-                    "drop-shadow(0 0 40px rgba(206,255,43,0.3))",
-                    "drop-shadow(0 0 60px rgba(206,255,43,0.5))",
-                    "drop-shadow(0 0 40px rgba(206,255,43,0.3))",
-                  ],
-                }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                ALCOVIA
-              </motion.span>
-            </motion.h2>
+              ALCOVIA
+            </h2>
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   )

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
+import TextReveal from "@/components/text-reveal"
 
 const pillars = [
     {
@@ -208,14 +209,16 @@ export default function AboutContent() {
                         </span>
                     </motion.h1>
 
-                    <motion.p
-                        className="mt-8 max-w-2xl mx-auto text-lg text-[#0B0B0B]/60 md:text-xl"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                    >
-                        The launchpad for the top 1% who dream bigger and push harder
-                    </motion.p>
+                    <TextReveal delay={0.4} highlightColor="#CCFF00">
+                        <motion.p
+                            className="mt-8 max-w-2xl mx-auto text-lg text-[#0B0B0B]/60 md:text-xl"
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={heroInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.8, delay: 0.4 }}
+                        >
+                            The launchpad for the top 1% who dream bigger and push harder
+                        </motion.p>
+                    </TextReveal>
 
                     <motion.div
                         className="mt-12"
@@ -249,9 +252,11 @@ export default function AboutContent() {
                             Who We Are
                         </span>
 
-                        <h2 className="mt-6 text-4xl font-bold text-[#0B0B0B] md:text-5xl lg:text-6xl">
-                            The Launchpad for the <span className="text-[#CCFF00]" style={{ WebkitTextStroke: "1px #0B0B0B" }}>Top 1%</span>
-                        </h2>
+                        <TextReveal delay={0} highlightColor="#CCFF00">
+                            <h2 className="mt-6 text-4xl font-bold text-[#0B0B0B] md:text-5xl lg:text-6xl">
+                                The Launchpad for the <span className="text-[#CCFF00]" style={{ WebkitTextStroke: "1px #0B0B0B" }}>Top 1%</span>
+                            </h2>
+                        </TextReveal>
 
                         <motion.p
                             className="mt-8 text-xl text-[#0B0B0B]/70 leading-relaxed max-w-3xl mx-auto"

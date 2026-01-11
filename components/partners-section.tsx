@@ -32,14 +32,14 @@ export default function PartnersSection() {
         >
           <defs>
             <linearGradient id="premiumFill" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#CEFF2B" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#CEFF2B" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#CEFF2B" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#EABF36" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#EABF36" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#EABF36" stopOpacity="0.1" />
             </linearGradient>
             <linearGradient id="premiumStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#CEFF2B" stopOpacity="0.4" />
-              <stop offset="50%" stopColor="#CEFF2B" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#CEFF2B" stopOpacity="0.4" />
+              <stop offset="0%" stopColor="#EABF36" stopOpacity="0.4" />
+              <stop offset="50%" stopColor="#EABF36" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#EABF36" stopOpacity="0.4" />
             </linearGradient>
           </defs>
 
@@ -82,15 +82,12 @@ export default function PartnersSection() {
             </TextReveal>
           </div>
 
-          <motion.p
-            className="max-w-md self-end text-base text-[#0B0B0B]/70 md:text-lg"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Alcovia is proud to collaborate with a range of partners, who share our passion for empowering students
-            across India.
-          </motion.p>
+          <TextReveal delay={0.4} highlightColor="#EABF36">
+            <p className="max-w-md self-end text-base text-[#0B0B0B]/70 md:text-lg">
+              Alcovia is proud to collaborate with a range of partners, who share our passion for empowering students
+              across India.
+            </p>
+          </TextReveal>
         </div>
 
         <motion.div
@@ -112,7 +109,7 @@ export default function PartnersSection() {
                 href="#"
                 className="text-xl font-bold tracking-wider md:text-2xl"
                 baseColor="#0B0B0B"
-                hoverColor="#CEFF2B"
+                hoverColor="#EABF36"
               >
                 {partner.logo}
               </FlipLink>

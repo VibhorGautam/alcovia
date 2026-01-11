@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-12 text-[#CEFF2B]">
+                    <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-12 text-[#EABF36]">
                         Privacy Policy
                     </h1>
 

@@ -1,126 +1,38 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
-import Image from "next/image"
-import TextReveal from "./text-reveal"
-
-const snapshots = [
-  {
-    image: "/images/annualsummit.jpg",
-    caption: "Annual Alcovia Summit",
-    rotate: -3,
-  },
-  {
-    image: "/images/winning.jpg",
-    caption: "Celebrating Winnings",
-    rotate: 2,
-  },
-  {
-    image: "/images/podcast.jpg",
-    caption: "Podcasts",
-    rotate: -2,
-  },
-  {
-    image: "/images/something.jpg",
-    caption: "",
-    rotate: 4,
-  },
-  {
-    image: "/images/part2.jpg",
-    caption: "Winnings moments",
-    rotate: -1,
-  },
-  {
-    image: "/images/mentorshipmoments.jpeg",
-    caption: "Mentorship moments",
-    rotate: 3,
-  },
-]
+import { motion, useInView } from "framer-motion"
 
 export default function StudentSnapshots() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: "-100px" })
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  const yOffset0 = useTransform(scrollYProgress, [0, 1], [30, -30])
-  const yOffset1 = useTransform(scrollYProgress, [0, 1], [-30, 30])
-  const yOffset2 = useTransform(scrollYProgress, [0, 1], [30, -30])
-  const yOffset3 = useTransform(scrollYProgress, [0, 1], [-30, 30])
-  const yOffset4 = useTransform(scrollYProgress, [0, 1], [30, -30])
-  const yOffset5 = useTransform(scrollYProgress, [0, 1], [-30, 30])
-
-  const yOffsets = [yOffset0, yOffset1, yOffset2, yOffset3, yOffset4, yOffset5]
-
   return (
-    <section ref={containerRef} className="relative bg-[#F5F5EF] px-6 py-24 md:px-12">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-16 text-center">
-          <TextReveal delay={0}>
-            <h2 className="text-4xl font-black uppercase tracking-tight text-[#0B0B0B] md:text-5xl lg:text-6xl">
-              Student <span className="text-[#CEFF2B]">Snapshots</span>
-            </h2>
-          </TextReveal>
-        </div>
+    <section ref={containerRef} className="relative w-full">
+      {/* Full-width Video Container */}
+      <motion.div
+        className="relative w-full aspect-video"
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Video Placeholder - Replace src with actual video */}
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/video-poster.jpg"
+        >
+          {/* Add your video source here */}
+          <source src="/videos/student-snapshots.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-        <div className="grid auto-rows-[200px] grid-cols-2 gap-4 md:auto-rows-[250px] md:grid-cols-4 lg:auto-rows-[280px]">
-          {snapshots.map((snapshot, index) => (
-            <motion.div
-              key={index}
-              data-card
-              className={`group relative overflow-hidden rounded-2xl ${index === 0 || index === 3 ? "col-span-1 row-span-2" : index === 1 ? "col-span-2 row-span-1" : ""
-                }`}
-              initial={{
-                opacity: 0,
-                y: 50,
-                rotate: snapshot.rotate,
-              }}
-              animate={
-                isInView
-                  ? {
-                    opacity: 1,
-                    y: 0,
-                    rotate: snapshot.rotate,
-                  }
-                  : {}
-              }
-              transition={{
-                delay: index * 0.15,
-                duration: 0.7,
-                type: "spring",
-                stiffness: 200,
-                damping: 25,
-              }}
-              whileHover={{
-                scale: 1.03,
-                rotate: 0,
-                zIndex: 10,
-                y: -8,
-                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
-              }}
-              style={{ rotate: snapshot.rotate }}
-            >
-              <motion.div className="relative h-full w-full" style={{ y: yOffsets[index] }}>
-                <Image
-                  src={snapshot.image || "/placeholder.svg"}
-                  alt={snapshot.caption}
-                  fill
-                  className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:saturate-[1.2]"
-                  style={{ filter: "contrast(1.05) saturate(0.9)" }}
-                />
-              </motion.div>
-              <div className="absolute inset-0 bg-linear-to-t from-[#0B0B0B]/70 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-              <motion.p className="absolute bottom-4 left-4 right-4 text-sm font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 md:text-base">
-                {snapshot.caption}
-              </motion.p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+        {/* Optional Overlay for text/branding */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+      </motion.div>
     </section>
   )
 }
