@@ -5,7 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ReactLenis } from "@studio-freight/react-lenis";
+import { ReactLenis } from "lenis/react";
 import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google';
 import { motion } from "framer-motion";
 import CustomCursor from "@/components/custom-cursor";
@@ -251,13 +251,13 @@ export default function OutsideSchoolPage() {
                         <div className="max-w-4xl text-center z-10">
                             <h2 className="text-5xl lg:text-8xl font-serif text-[#D4AF37] mb-8 italic">The Ascent</h2>
                             <div className="space-y-6 text-lg lg:text-2xl font-light text-[#F2F2F2]/80">
-                                
-                                    <p>This year brought in a lot of maturity, made each alcovian know that they are capable of 10x of their imagination.</p>
-                
-                                
-                                    <p className="text-white text-2xl lg:text-4xl font-normal">
-                                        They have not only made bonds that will last them a lifetime, they have stories- of success & failures. There are battlescars- but all of them making each alcovian only stronger.
-                                    </p>
+
+                                <p>This year brought in a lot of maturity, made each alcovian know that they are capable of 10x of their imagination.</p>
+
+
+                                <p className="text-white text-2xl lg:text-4xl font-normal">
+                                    They have not only made bonds that will last them a lifetime, they have stories- of success & failures. There are battlescars- but all of them making each alcovian only stronger.
+                                </p>
                             </div>
                         </div>
                     </section>
