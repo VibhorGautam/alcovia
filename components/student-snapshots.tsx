@@ -26,7 +26,7 @@ export default function StudentSnapshots() {
           poster="/images/video-poster.jpg"
         >
           {/* Add your video source here */}
-          <source src="/videos/download.MP4" type="video/mp4" />
+          <source src="/videos/download.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
