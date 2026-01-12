@@ -354,7 +354,8 @@ export default function Hero() {
 
       // Set initial tilt
       anime.set(iconRef.current, {
-        rotateX: 45
+        rotateX: 45,
+        rotateZ: 45
       })
 
       // Continuous 3D Spin
