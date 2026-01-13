@@ -3,27 +3,17 @@
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import TextReveal from "./text-reveal"
-import FlipLink from "@/components/flip-link"
-
-const partners = [
-  { name: "Harvard University", logo: "HARVARD" },
-  { name: "UCL", logo: "UCL" },
-  { name: "IIT Delhi", logo: "IIT" },
-  { name: "Stanford", logo: "STANFORD" },
-  { name: "MIT", logo: "MIT" },
-  { name: "Oxford", logo: "OXFORD" },
-  { name: "Cambridge", logo: "CAMBRIDGE" },
-]
+import InfiniteScrollMentors from "@/components/infinite-scroll-mentors"
 
 export default function PartnersSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: "-100px" })
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden bg-[#F5F5EF] px-6 py-24 md:px-12 md:py-32">
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+    <section ref={containerRef} className="relative w-full overflow-hidden bg-[#F5F5EF] py-24 md:py-32">
+      <div className="absolute inset-0 flex items-start justify-center overflow-hidden pointer-events-none">
         <motion.svg
-          className="h-[400px] w-full md:h-[500px] lg:h-[600px]"
+          className="absolute top-0 w-full h-[500px]"
           viewBox="0 0 900 300"
           preserveAspectRatio="xMidYMid meet"
           initial={{ opacity: 0 }}
@@ -45,7 +35,7 @@ export default function PartnersSection() {
 
           <motion.text
             x="50%"
-            y="55%"
+            y="38%"
             textAnchor="middle"
             dominantBaseline="middle"
             fill="url(#premiumFill)"
@@ -67,7 +57,7 @@ export default function PartnersSection() {
         </motion.svg>
       </div>
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl px-6 md:px-12">
         <div className="mb-16 grid gap-8 md:grid-cols-2 md:gap-16">
           <div>
             <TextReveal delay={0}>
@@ -89,33 +79,10 @@ export default function PartnersSection() {
             </p>
           </TextReveal>
         </div>
+      </div>
 
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          {partners.map((partner, index) => (
-            <motion.div
-              key={partner.name}
-              className="group flex flex-col items-center cursor-pointer"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.05, y: -4 }}
-            >
-              <FlipLink
-                href="#"
-                className="text-xl font-bold tracking-wider md:text-2xl"
-                baseColor="#0B0B0B"
-                hoverColor="#EABF36"
-              >
-                {partner.logo}
-              </FlipLink>
-            </motion.div>
-          ))}
-        </motion.div>
+      <div className="relative w-full overflow-hidden">
+        <InfiniteScrollMentors />
       </div>
     </section>
   )
