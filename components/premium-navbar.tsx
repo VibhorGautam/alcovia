@@ -141,7 +141,7 @@ export default function PremiumNavbar() {
                   alt="ALCOVIA"
                   width={scrolled ? 220 : 150}
                   height={scrolled ? 220 : 150}
-                  className={`transition-all duration-300 h-[220px] w-[120px] -mt-6 object-contain object-bottom pt-6`}
+                  className={`transition-all duration-300 h-[200px] w-[120px] -mt-6 object-contain object-bottom pt-6`}
                   style={{
                     filter: navMode === "light" ? "brightness(1.2) invert(0)" : "brightness(1) invert(0)"
                   }}
@@ -206,7 +206,7 @@ export default function PremiumNavbar() {
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span>Apply</span>
+                  <span>Apply for Cohort 2026</span>
                 </motion.a>
               )}
             </AnimatePresence>

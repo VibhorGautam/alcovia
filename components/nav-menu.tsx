@@ -231,10 +231,10 @@ export default function NavMenu({ isOpen, onClose }: NavMenuProps) {
                                         Business Enquiries
                                     </span>
                                     <a
-                                        href="mailto:info@alcovia.life"
+                                        href="tel:+919070606050"
                                         className="text-sm font-medium text-[#F7F7F3] transition-colors hover:text-[#EABF36]"
                                     >
-                                        info@alcovia.life
+                                        +91 9070606050
                                     </a>
                                 </div>
 

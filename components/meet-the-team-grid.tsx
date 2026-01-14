@@ -28,13 +28,13 @@ const team = [
     { id: "09", name: "Madhav", role: "GTM", img: "/images/team/madhav.png" },
 ];
 
+// Company logos with images
 const companyLogos = [
-    "Flipkart", "Panasonic", "Noise", "Nothing", "Masters Union",
-    "Bain", "McKinsey", "British School", "Vasant Valley School"
-];
-
-const alumniLogos = [
-    "Harvard", "Cambridge", "IIM Indore", "SRCC", "NSUT", "SSCBS"
+    { name: "Masters Union", src: "/images/logos/masters-union.png", width: 160, height: 60 },
+    { name: "Noise", src: "/images/logos/noise.png", width: 140, height: 50 },
+    { name: "Panasonic", src: "/images/logos/panasonic.png", width: 120, height: 40 },
+    { name: "McKinsey", src: "/images/logos/mckinsey.png", width: 130, height: 50 },
+    { name: "Nothing", src: "/images/logos/nothing.png", width: 120, height: 40 },
 ];
 
 export default function MeetTheTeamGrid() {
@@ -124,43 +124,172 @@ export default function MeetTheTeamGrid() {
                 </div>
             )}
 
-            {/* --- SECTION 1: HERO HEADER --- */}
-            <section className="px-6 pt-32 pb-20 md:px-12 lg:px-20 lg:pt-40 lg:pb-32">
+            {/* --- SECTION 1: INTRO / LAUNCHPAD --- */}
+            <section className="px-6 pt-32 pb-16 md:px-12 lg:px-20 lg:pt-40">
                 <div className="max-w-7xl mx-auto">
-                    <motion.p
-                        className="text-xs uppercase tracking-[0.3em] mb-6"
-                        style={{ color: COLORS.amber }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        The Team
-                    </motion.p>
-
-                    <motion.h1
-                        className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] max-w-4xl"
-                        style={{ color: COLORS.cream }}
+                    <motion.div
+                        className="max-w-4xl"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        transition={{ duration: 0.8 }}
                     >
-                        The First-Principle Thinkers Behind the{' '}
-                        <span style={{ color: COLORS.amber }}>Top 1%</span>
-                    </motion.h1>
+                        <p className="text-xs uppercase tracking-[0.3em] mb-6" style={{ color: COLORS.amber }}>
+                            Who We Are
+                        </p>
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.2] mb-8" style={{ color: COLORS.cream }}>
+                            We are the launchpad for the{' '}
+                            <span style={{ color: COLORS.amber }}>top 1%</span>{' '}
+                            of those who dream bigger, push harder, and never stop reaching for more.
+                        </h1>
 
-                    <motion.p
-                        className="mt-8 text-lg md:text-xl max-w-2xl leading-relaxed"
-                        style={{ color: `${COLORS.cream}99` }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5, duration: 0.6 }}
-                    >
-                        First Principle Thinkers, Industry Shakers, Lean & Mean. A team that is obsessed with problem statements.
-                    </motion.p>
+                        <p className="text-lg md:text-xl leading-relaxed mb-8" style={{ color: `${COLORS.cream}cc` }}>
+                            At Alcovia, we're committed to helping teens unlock their full potential through:
+                        </p>
+
+                        {/* Three Pillars */}
+                        <div className="grid md:grid-cols-3 gap-6 mb-8">
+                            {[
+                                { num: "01", title: "Mentorship", desc: "Industry leaders guiding your journey" },
+                                { num: "02", title: "Peer Learning", desc: "Grow together with ambitious minds" },
+                                { num: "03", title: "Hyper-Personalized Guidance", desc: "Tailored paths to your dreams" }
+                            ].map((pillar, i) => (
+                                <motion.div
+                                    key={pillar.title}
+                                    className="p-6 rounded-2xl border transition-all duration-300 hover:border-[#EABF36]/50"
+                                    style={{ borderColor: `${COLORS.cream}20`, backgroundColor: `${COLORS.backgroundAlt}50` }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
+                                    whileHover={{ scale: 1.02 }}
+                                >
+                                    <span className="text-sm font-mono mb-2 block" style={{ color: COLORS.amber }}>{pillar.num}</span>
+                                    <h3 className="text-xl font-bold mb-2" style={{ color: COLORS.cream }}>{pillar.title}</h3>
+                                    <p className="text-sm" style={{ color: `${COLORS.cream}80` }}>{pillar.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <motion.p
+                            className="text-2xl md:text-3xl font-bold"
+                            style={{ color: COLORS.amber }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8 }}
+                        >
+                            To build a life which is 100x bigger than whatever you imagine.
+                        </motion.p>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* --- SECTION 2: DYNAMIC NAME LIST (Desktop) --- */}
+            {/* --- SECTION 2: MISSION --- */}
+            <section className="px-6 py-20 md:px-12 lg:px-20" style={{ backgroundColor: COLORS.backgroundAlt }}>
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <p className="text-xs uppercase tracking-[0.3em] mb-4" style={{ color: COLORS.amber }}>
+                                Our Mission
+                            </p>
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6" style={{ color: COLORS.cream }}>
+                                We are redefining education in India
+                            </h2>
+                            <p className="text-lg leading-relaxed mb-8" style={{ color: `${COLORS.cream}cc` }}>
+                                By bringing the industry to stand next to school students. We believe in making Alcovians learn by:
+                            </p>
+
+                            <div className="space-y-4">
+                                {[
+                                    "Actually doing it",
+                                    "Learn from each other",
+                                    "Learn from mentors they have for life"
+                                ].map((item, i) => (
+                                    <motion.div
+                                        key={item}
+                                        className="flex items-center gap-4"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 0.2 + i * 0.1 }}
+                                    >
+                                        <span className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+                                            style={{ backgroundColor: COLORS.amber, color: COLORS.backgroundAlt }}>
+                                            {i + 1}
+                                        </span>
+                                        <span className="text-lg font-medium" style={{ color: COLORS.cream }}>{item}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        {/* Floating Logos */}
+                        <motion.div
+                            className="relative h-[400px] hidden lg:block"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.3 }}
+                        >
+                            {companyLogos.map((logo, i) => (
+                                <motion.div
+                                    key={logo.name}
+                                    className="absolute opacity-60 hover:opacity-100 transition-opacity duration-300"
+                                    style={{
+                                        top: `${20 + (i % 3) * 30}%`,
+                                        left: `${10 + (i % 2) * 40}%`,
+                                    }}
+                                    animate={{
+                                        y: [0, -10, 0],
+                                        rotate: [0, i % 2 === 0 ? 2 : -2, 0],
+                                    }}
+                                    transition={{
+                                        duration: 4 + i * 0.5,
+                                        repeat: Infinity,
+                                        ease: "easeInOut",
+                                    }}
+                                    whileHover={{ scale: 1.1 }}
+                                >
+                                    <Image
+                                        src={logo.src}
+                                        alt={logo.name}
+                                        width={logo.width}
+                                        height={logo.height}
+                                        className="object-contain filter brightness-0 invert"
+                                    />
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* --- SECTION 3: TEAM HEADER --- */}
+            <section className="px-6 py-20 md:px-12 lg:px-20">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        className="text-center mb-16"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <p className="text-xs uppercase tracking-[0.3em] mb-4" style={{ color: COLORS.amber }}>
+                            The Team
+                        </p>
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6" style={{ color: COLORS.cream }}>
+                            First Principle Thinkers
+                        </h2>
+                        <p className="text-xl md:text-2xl font-medium" style={{ color: `${COLORS.cream}99` }}>
+                            Industry Shakers, Lean & Mean.
+                        </p>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* --- SECTION 4: DYNAMIC NAME LIST (Desktop) --- */}
             <section className="hidden lg:block px-6 md:px-12 lg:px-20 pb-32">
                 <div className="max-w-7xl mx-auto">
                     <p className="text-xs uppercase tracking-[0.2em] mb-8" style={{ color: `${COLORS.cream}66` }}>
@@ -210,7 +339,7 @@ export default function MeetTheTeamGrid() {
                 </div>
             </section>
 
-            {/* --- SECTION 2: MOBILE/TABLET ACCORDION --- */}
+            {/* --- SECTION 4: MOBILE/TABLET ACCORDION --- */}
             <section className="lg:hidden px-6 md:px-12 pb-20">
                 <div className="max-w-2xl mx-auto">
                     <p className="text-xs uppercase tracking-[0.2em] mb-6" style={{ color: `${COLORS.cream}66` }}>
@@ -231,7 +360,10 @@ export default function MeetTheTeamGrid() {
                                 <div className="flex items-center justify-between p-5 cursor-pointer">
                                     <div className="flex items-center gap-4">
                                         <span className="text-sm font-mono" style={{ color: COLORS.amber }}>{member.id}</span>
-                                        <h3 className="text-xl font-bold" style={{ color: COLORS.cream }}>{member.name}</h3>
+                                        <div>
+                                            <h3 className="text-xl font-bold" style={{ color: COLORS.cream }}>{member.name}</h3>
+                                            <p className="text-sm italic" style={{ color: `${COLORS.cream}80` }}>{member.role}</p>
+                                        </div>
                                     </div>
                                     <motion.span
                                         animate={{ rotate: expandedMobile === member.id ? 45 : 0 }}
@@ -276,7 +408,7 @@ export default function MeetTheTeamGrid() {
                 </div>
             </section>
 
-            {/* --- SECTION 3: PEDIGREE BLOCK --- */}
+            {/* --- SECTION 5: PEDIGREE BLOCK --- */}
             <section className="px-6 md:px-12 lg:px-20 py-20" style={{ backgroundColor: COLORS.backgroundAlt }}>
                 <div className="max-w-4xl mx-auto text-center">
                     <motion.p
@@ -302,7 +434,7 @@ export default function MeetTheTeamGrid() {
                 </div>
             </section>
 
-            {/* --- SECTION 4: INFINITE LOGO MARQUEE --- */}
+            {/* --- SECTION 6: FLOATING LOGO MARQUEE --- */}
             <section className="py-16 overflow-hidden" style={{ backgroundColor: COLORS.background }}>
                 <div className="mb-8 text-center">
                     <p className="text-xs uppercase tracking-[0.3em]" style={{ color: `${COLORS.cream}66` }}>
@@ -312,31 +444,37 @@ export default function MeetTheTeamGrid() {
 
                 <div className="relative flex overflow-hidden">
                     <motion.div
-                        className="flex gap-16 whitespace-nowrap"
-                        animate={{ x: [0, -1920] }}
+                        className="flex gap-16 items-center whitespace-nowrap"
+                        animate={{ x: [0, -1200] }}
                         transition={{
                             x: {
                                 repeat: Infinity,
                                 repeatType: "loop",
-                                duration: 30,
+                                duration: 25,
                                 ease: "linear",
                             },
                         }}
                     >
-                        {[...companyLogos, ...companyLogos].map((logo, i) => (
-                            <div
-                                key={`${logo}-${i}`}
-                                className="flex-shrink-0 px-8 py-4 text-2xl md:text-3xl font-bold uppercase tracking-widest opacity-30 hover:opacity-100 transition-opacity duration-300 cursor-default"
-                                style={{ color: COLORS.cream }}
+                        {[...companyLogos, ...companyLogos, ...companyLogos].map((logo, i) => (
+                            <motion.div
+                                key={`${logo.name}-${i}`}
+                                className="flex-shrink-0 px-8 py-4 opacity-40 hover:opacity-100 transition-opacity duration-300"
+                                whileHover={{ scale: 1.1 }}
                             >
-                                {logo}
-                            </div>
+                                <Image
+                                    src={logo.src}
+                                    alt={logo.name}
+                                    width={logo.width}
+                                    height={logo.height}
+                                    className="object-contain filter brightness-0 invert h-12 w-auto"
+                                />
+                            </motion.div>
                         ))}
                     </motion.div>
                 </div>
             </section>
 
-            {/* --- SECTION 5: CTA --- */}
+            {/* --- SECTION 7: CTA --- */}
             <section className="px-6 md:px-12 lg:px-20 py-24 text-center" style={{ backgroundColor: COLORS.backgroundAlt }}>
                 <motion.h2
                     className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8"

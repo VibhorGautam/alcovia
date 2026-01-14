@@ -112,15 +112,15 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            
+
             <h3 className="text-sm font-semibold uppercase tracking-wider text-[#EABF36]">
-              Legal
+              Upcoming
             </h3>
-           
+
             <nav className="flex flex-col space-y-2">
               {[
-                { name: "Terms & Conditions", href: "/Legal/terms-and-conditions" },
-                { name: "Privacy Policy", href: "/Legal/Privacy-policy" }
+                { name: "Cohort 2026", href: "https://docs.google.com/forms/d/e/1FAIpQLScvrS8qOc0BaUBKqw5-GSG6oyyBvK3fs0aklTw0eszc1EvBUg/viewform" },
+                { name: "Workshop", href: "/outside-school" }
               ].map((link) => (
                 <FlipLink
                   key={link.name}
@@ -170,7 +170,7 @@ export default function Footer() {
           <p className="text-xs text-white/40 sm:text-sm">
             Alcovia © 2026. Ahead of the Curve.
           </p>
-          
+
           <p className="text-xs text-white/40">
             All rights reserved.
           </p>
