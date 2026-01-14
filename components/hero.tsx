@@ -642,7 +642,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Girl Image - 25% larger, anchored to bottom */}
+          {/* Girl Image - Restored Size for Desktop */}
           <motion.div
             ref={portraitRef}
             className="relative z-20 h-[525px] w-[375px] cursor-pointer overflow-hidden rounded-t-3xl bg-transparent md:h-[750px] md:w-[525px] xl:h-[750px] xl:w-[550px]"
@@ -745,21 +745,94 @@ export default function Hero() {
 
           {/* Desktop-only Tagline - Side of Hero Image */}
           <motion.div
-            className="hidden xl:flex absolute right-[-320px] top-1/2 -translate-y-1/2 flex-col items-start z-30"
+            className="hidden xl:flex absolute left-full ml-16 top-[45%] -translate-y-1/2 flex-col items-start z-30 w-[240px]"
             initial={{ opacity: 0, x: -30 }}
             animate={isRevealed ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 1.4, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <p className="text-[#0C0C0C] font-[family-name:var(--font-milan)] text-xl leading-relaxed tracking-tight max-w-[250px]">
+            <p className="text-[#0C0C0C] font-[family-name:var(--font-milan)] text-xl leading-relaxed tracking-tight w-full">
               World's first
             </p>
-            <p className="text-[#EABF36] font-[family-name:var(--font-milan)] text-2xl font-semibold leading-relaxed tracking-tight max-w-[250px]">
+            <p className="text-[#EABF36] font-[family-name:var(--font-milan)] text-2xl font-semibold leading-relaxed tracking-tight w-full">
               Ambition Building
             </p>
-            <p className="text-[#0C0C0C] font-[family-name:var(--font-milan)] text-xl leading-relaxed tracking-tight max-w-[250px]">
+            <p className="text-[#0C0C0C] font-[family-name:var(--font-milan)] text-xl leading-relaxed tracking-tight w-full">
               Program for Teenagers
             </p>
           </motion.div>
+
+          {/* Upcoming Workshops Widget - Left Side, Anchored to Center */}
+          <motion.div
+            className="absolute bottom-28 right-full mr-16 z-30 hidden xl:block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 1.5, duration: 0.8 }}
+          >
+            <a href="/events" className="group block">
+              <div className="relative flex h-[240px] w-[180px] flex-col rounded-xl border-2 border-[#0C0C0C] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_#EABF36]">
+                {/* HEADER: "NEXT EVENT" style */}
+                <div className="border-b-2 border-[#0C0C0C] px-4 py-2 bg-[#f4f4f4] rounded-t-[9px]">
+                  <span className="block text-[10px] font-black uppercase tracking-widest text-[#0C0C0C]/60">
+                    NEXT EVENT
+                  </span>
+                </div>
+
+                {/* BODY: Rotating Graphic */}
+                <div className="flex-1 flex items-center justify-center py-2 bg-white relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-[0.03]"
+                    style={{ backgroundImage: "radial-gradient(#000 1px, transparent 1px)", backgroundSize: "10px 10px" }}
+                  />
+                  <RotatingEventIcon />
+                </div>
+
+                {/* FOOTER: Event Details */}
+                <div className="border-t-2 border-[#0C0C0C] p-4 bg-white rounded-b-[9px]">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <span className="block text-[9px] font-bold uppercase text-[#EABF36]">
+                        WORKSHOP
+                      </span>
+                      <h4 className="text-sm font-black uppercase leading-none text-[#0C0C0C] mt-1">
+                        INDUSTRY<br />DISCOVERY
+                      </h4>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <span className="text-xl font-black text-[#0C0C0C] leading-none">17</span>
+                      <span className="text-[8px] font-bold uppercase text-[#0C0C0C]/60">JAN</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2 text-[10px] font-bold uppercase text-[#0C0C0C] opacity-0 transition-opacity group-hover:opacity-100">
+                    <span>Register Now</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </div>
+                </div>
+              </div>
+            </a>
+          </motion.div>
+
+          {/* Desktop CTA - Right Side, Anchored to Center (Girl -> Text -> CTA) */}
+          <div className="absolute bottom-28 left-full ml-16 z-30 hidden flex-col items-center gap-6 xl:flex">
+            <motion.button
+              ref={ctaRef}
+              className="group relative overflow-hidden rounded-full border-2 border-[#0C0C0C] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#EABF36] focus:outline-none focus:ring-2 focus:ring-[#EABF36] focus:ring-offset-2"
+              style={{ opacity: 0 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onMouseEnter={handleCTAMouseEnter}
+              onClick={handleCTAClick}
+              aria-label="Start your journey at Alcovia"
+            >
+              <span className="relative z-10 transition-colors group-hover:text-[#0C0C0C]">
+                Start Your Journey
+              </span>
+              <motion.div
+                className="absolute inset-0 -z-0 bg-[#EABF36]"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </motion.button>
+          </div>
         </div>
 
         {/* Mobile CTA */}
@@ -788,91 +861,7 @@ export default function Hero() {
           </motion.button>
         </motion.div>
 
-        {/* Upcoming Workshops Widget - Left Side, Desktop Only */}
-        <motion.div
-          className="absolute bottom-32 left-6 z-30 hidden md:block md:bottom-8 md:left-1 xl:bottom-[clamp(100px,12vh,200px)] xl:left-0"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isRevealed ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 1.5, duration: 0.8 }}
-        >
-          <a href="/events" className="group block">
-            {/* McLaren-Style Card Layout 
-           - Fixed width/height
-           - Distinct border
-           - Structured Header/Body/Footer
-        */}
-            <div className="relative flex h-[240px] w-[180px] flex-col rounded-xl border-2 border-[#0C0C0C] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_#EABF36]">
 
-              {/* HEADER: "NEXT RACE" style */}
-              <div className="border-b-2 border-[#0C0C0C] px-4 py-2 bg-[#f4f4f4] rounded-t-[9px]">
-                <span className="block text-[10px] font-black uppercase tracking-widest text-[#0C0C0C]/60">
-                  NEXT EVENT
-                </span>
-              </div>
-
-              {/* BODY: Rotating Graphic */}
-              <div className="flex-1 flex items-center justify-center py-2 bg-white relative overflow-hidden">
-                {/* Background Grid Pattern (Optional subtle detail) */}
-                <div className="absolute inset-0 opacity-[0.03]"
-                  style={{ backgroundImage: "radial-gradient(#000 1px, transparent 1px)", backgroundSize: "10px 10px" }}
-                />
-
-                <RotatingEventIcon />
-              </div>
-
-              {/* FOOTER: Event Details */}
-              <div className="border-t-2 border-[#0C0C0C] p-4 bg-white rounded-b-[9px]">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <span className="block text-[9px] font-bold uppercase text-[#EABF36]">
-                      WORKSHOP
-                    </span>
-                    <h4 className="text-sm font-black uppercase leading-none text-[#0C0C0C] mt-1">
-                      INDUSTRY<br />DISCOVERY
-                    </h4>
-                  </div>
-
-                  {/* Date Badge */}
-                  <div className="flex flex-col items-end">
-                    <span className="text-xl font-black text-[#0C0C0C] leading-none">17</span>
-                    <span className="text-[8px] font-bold uppercase text-[#0C0C0C]/60">JAN</span>
-                  </div>
-                </div>
-
-                {/* Hover Action */}
-                <div className="mt-3 flex items-center gap-2 text-[10px] font-bold uppercase text-[#0C0C0C] opacity-0 transition-opacity group-hover:opacity-100">
-                  <span>Register Now</span>
-                  <ArrowUpRight className="w-3 h-3" />
-                </div>
-              </div>
-
-            </div>
-          </a>
-        </motion.div>
-
-        {/* Desktop CTA - Bottom Right */}
-        <div className="absolute bottom-8 right-6 z-30 hidden flex-col items-center gap-6 md:flex md:bottom-8 md:right-6 xl:bottom-[clamp(100px,12vh,200px)] xl:right-12 xl:items-end">
-          <motion.button
-            ref={ctaRef}
-            className="group relative overflow-hidden rounded-full border-2 border-[#0C0C0C] px-8 py-4 text-sm font-bold uppercase tracking-wider text-[#0C0C0C] transition-all hover:border-[#EABF36] focus:outline-none focus:ring-2 focus:ring-[#EABF36] focus:ring-offset-2 md:px-8 md:py-4"
-            style={{ opacity: 0 }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onMouseEnter={handleCTAMouseEnter}
-            onClick={handleCTAClick}
-            aria-label="Start your journey at Alcovia"
-          >
-            <span className="relative z-10 transition-colors group-hover:text-[#0C0C0C]">
-              Start Your Journey
-            </span>
-            <motion.div
-              className="absolute inset-0 -z-0 bg-[#EABF36]"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </motion.button>
-        </div>
       </div>
     </motion.section>
   )
