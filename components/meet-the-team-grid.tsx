@@ -23,7 +23,7 @@ const team = [
     { id: "04", name: "Farah", role: "Strategy Head", img: "/images/team/farah.png" },
     { id: "05", name: "Vibhor", role: "AI Product Manager", img: "/images/team/vibhor.png" },
     { id: "06", name: "Hita", role: "Systems Designer", img: "/images/team/hita.png" },
-    { id: "07", name: "Nehil", role: "Full Stack Engineer", img: "/images/team/Nehil.png" },
+    { id: "07", name: "Gaurav Mehta", role: "Full Stack Engineer", img: "/placeholder-user.jpg" },
     { id: "08", name: "Vansh", role: "Brand Experience Manager", img: "/images/team/vansh.png" },
     { id: "09", name: "Madhav", role: "GTM", img: "/images/team/madhav.png" },
 ];
